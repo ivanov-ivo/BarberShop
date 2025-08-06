@@ -80,18 +80,10 @@ VALUES
 
 insert into `appointments`
 values
-('2025-08-25 22:00:00', 'Nikola Zhekov', '+359897371823', 1, 'Buzz Cut'),
-('2025-08-24 12:00:00', 'Yavor Vasilev', '+359897371823', 1, 'Low Taper Fade'),
-('2025-08-26 15:00:00', 'Velislav Borisov', '+359897371823', 1, 'Mid Taper Fade'),
-('2025-07-27 20:00:00', 'Martin Nedev', '+359897371823', 1, 'French Crop'),
-('2025-07-25 11:00:00', 'Serkan Rashid', '+359897371823', 1, 'French Crop'),
-('2025-07-23 22:00:00', 'Nikola Zhekov', '+359897371823', 1, 'Mid Taper Fade');
-
-insert into `appointments`
-values
 ('2025-05-31 11:00:00', 'Nikola Zhekov', '+359897371823', 2, 'Buzz Cut'),
 ('2025-05-31 16:00:00', 'Yavor Vasilev', '+359897371823', 2, 'Low Taper Fade'),
 ('2025-06-26 15:00:00', 'Velislav Borisov', '+359897371823', 2, 'Mid Taper Fade'),
 ('2025-06-27 20:00:00', 'Martin Nedev', '+359897371823', 2, 'French Crop'),
 ('2025-06-25 11:00:00', 'Serkan Rashid', '+359897371823', 2, 'French Crop'),
 ('2025-06-23 22:00:00', 'Nikola Zhekov', '+359897371823', 2, 'Mid Taper Fade');
+
