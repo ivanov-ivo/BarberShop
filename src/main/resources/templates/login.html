@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Login - Gentlemen's Barber Shop</title>
+
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
+
+        <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+        <link href="/css/bootstrap-icons.css" rel="stylesheet">
+
+        <link href="/css/templatemo-barber-shop.css" rel="stylesheet">
+
+        <style>
+            .hero-section.login-hero {
+                min-height: 100vh;
+                padding-bottom: 50px;
+            }
+
+            .login-form {
+                background: var(--white-color);
+                border-radius: var(--border-radius-medium);
+                padding: 65px;
+                position: relative;
+                z-index: 2;
+                border: 10px solid var(--primary-color);
+                max-width: 600px;
+                margin: 0 auto;
+            }
+
+            .login-form .form-control {
+                margin-bottom: 20px;
+            }
+
+            .alert {
+                margin-bottom: 20px;
+                padding: 15px;
+                border-radius: 8px;
+                animation: fadeInDown 0.5s ease-out;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .alert-danger {
+                background-color: #fff2f2;
+                border-left: 4px solid #dc3545;
+                color: #dc3545;
+            }
+
+            .alert-success {
+                background-color: #f2fff2;
+                border-left: 4px solid #28a745;
+                color: #28a745;
+            }
+
+            .alert i {
+                margin-right: 10px;
+                font-size: 1.2em;
+                vertical-align: middle;
+            }
+
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .form-control.error {
+                border-color: #dc3545;
+                box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+            }
+
+            /* Transition overlay */
+            .page-transition {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-image: url("/images/vintage-chair-barbershop.jpg");
+                background-size: cover;
+                background-position: center;
+                opacity: 0;
+                pointer-events: none;
+                z-index: 9999;
+                transition: opacity 0.8s ease-in-out;
+            }
+
+            .page-transition.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+        </style>
+    </head>
+    
+    <body>
+        <!-- Add transition overlay -->
+        <div class="page-transition"></div>
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12 p-0">
+                    <section class="hero-section login-hero d-flex justify-content-center align-items-center">
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-6 col-12">
+                                    <div class="login-form">
+                                        <div class="text-center mb-4">
+                                            <a th:href="@{/}" class="navbar-brand mb-4 d-block">
+                                                <img src="/images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop">
+                                            </a>
+                                            <h2>Login</h2>
+                                        </div>
+
+                                        <!-- Error Message -->
+                                        <div th:if="${param.error}" class="alert alert-danger text-center">
+                                            <i class="bi bi-exclamation-triangle"></i>
+                                            <span>Invalid username or password</span>
+                                        </div>
+
+                                        <div th:if="${param.logout}" class="alert alert-success text-center">
+                                            <i class="bi bi-check-circle"></i>
+                                            <span>You have been logged out successfully</span>
+                                        </div>
+
+                                        <form action="#" method="post" class="custom-form" th:action="@{/authenticateTheUser}" th:object="${loginInput}">
+                                            <div class="form-group">
+                                                <input type="email" name="username" id="email" class="form-control" 
+                                                    th:classappend="${param.error} ? 'error'" 
+                                                    placeholder="Email" th:value="${loginInput.username}" required>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <input type="password" name="password" id="password" class="form-control" 
+                                                    th:classappend="${param.error} ? 'error'"
+                                                    placeholder="Password" th:value="${loginInput.password}" required>
+                                            </div>
+
+                                            <div class="col-lg-12 col-12">
+                                                <button type="submit" class="form-control">Login</button>
+                                            </div>
+                                        </form>
+
+                                        <div class="text-center mt-4">
+                                            <a th:href="@{/}" class="btn custom-btn custom-border-btn">Back to Home</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="/js/jquery.min.js"></script>
+        <script src="/js/bootstrap.min.js"></script>
+        <script src="/js/custom.js"></script>
+        <script>
+            // Simple direct navigation for back to home button
+            $('.btn.custom-btn').on('click', function(e) {
+                e.preventDefault();
+                window.location.href = '/';
+            });
+
+            // Shake animation for error
+            if (window.location.href.includes('error')) {
+                $('.alert-danger').parent().addClass('shake');
+                setTimeout(function() {
+                    $('.alert-danger').parent().removeClass('shake');
+                }, 500);
+            }
+        </script>
+
+    </body>
+</html>

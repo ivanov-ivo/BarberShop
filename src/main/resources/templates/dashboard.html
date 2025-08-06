@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.springframework.org/security/tags">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Dashboard - Gentlemen's Barber Shop</title>
+
+        <!-- CSS FILES -->        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/bootstrap-icons.css" rel="stylesheet">
+        <link href="css/templatemo-barber-shop.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+        <style>
+            /* Center Flatpickr Calendar */
+            .flatpickr-calendar {
+                position: fixed !important;
+                top: 50% !important;
+                left: 50% !important;
+                transform: translate(-50%, -50%) !important;
+                z-index: 99999 !important;
+            }
+
+            /* Add overlay behind the calendar */
+            .flatpickr-calendar::before {
+                content: '';
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: -1;
+            }
+
+            /* Ensure calendar is above other elements */
+            .flatpickr-calendar.open {
+                display: inline-block !important;
+            }
+
+            .dashboard-section {
+                min-height: 100vh;
+                padding-top: 90px;
+                padding-bottom: 30px;
+                background-color: var(--white-color);
+            }
+
+            .dashboard-card {
+                background: var(--section-bg-color);
+                border-radius: var(--border-radius-medium);
+                padding: 30px;
+                margin-bottom: 30px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+
+            .dashboard-card h3 {
+                color: var(--primary-color);
+                margin-bottom: 20px;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .dashboard-card h3 i {
+                font-size: 1.2em;
+            }
+
+            .appointment-tabs {
+                border-bottom: 2px solid var(--primary-color);
+                margin-bottom: 20px;
+                display: flex;
+                gap: 20px;
+            }
+
+            .appointment-tab {
+                padding: 10px 20px;
+                cursor: pointer;
+                border: none;
+                background: none;
+                color: var(--dark-color);
+                font-weight: 500;
+                position: relative;
+                transition: all 0.3s ease;
+            }
+
+            .appointment-tab.active {
+                color: var(--primary-color);
+            }
+
+            .appointment-tab.active::after {
+                content: '';
+                position: absolute;
+                bottom: -2px;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: var(--primary-color);
+            }
+
+            .appointment-content {
+                display: none;
+            }
+
+            .appointment-content.active {
+                display: block;
+            }
+
+            .upcoming-appointment {
+                border-left: 4px solid var(--primary-color);
+                padding: 20px;
+                margin-bottom: 15px;
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 0 var(--border-radius-small) var(--border-radius-small) 0;
+                transition: all 0.3s ease;
+            }
+
+            .upcoming-appointment:hover {
+                transform: translateX(5px);
+                background: rgba(255, 255, 255, 0.8);
+            }
+
+            .appointment-status {
+                display: inline-block;
+                padding: 4px 8px;
+                border-radius: var(--border-radius-small);
+                font-size: 12px;
+                font-weight: 500;
+                margin-bottom: 5px;
+            }
+
+            .status-upcoming {
+                background-color: #e3f2fd;
+                color: #1976d2;
+            }
+
+            .status-completed {
+                background-color: #e8f5e9;
+                color: #2e7d32;
+            }
+
+            .status-today {
+                background-color: #fff3e0;
+                color: #f57c00;
+            }
+
+            .appointment-actions {
+                margin-top: 10px;
+                display: flex;
+                gap: 10px;
+            }
+
+            .action-btn {
+                padding: 5px 10px;
+                border: none;
+                border-radius: var(--border-radius-small);
+                font-size: 12px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .action-btn.edit {
+                background-color: #e3f2fd;
+                color: #1976d2;
+            }
+
+            .action-btn.cancel {
+                background-color: #ffebee;
+                color: #c62828;
+            }
+
+            .action-btn:hover {
+                opacity: 0.8;
+                transform: translateY(-1px);
+            }
+
+            .action-btn i {
+                font-size: 14px;
+            }
+
+            .action-btn.edit, .action-btn.cancel {
+                font-weight: 500;
+            }
+
+            .action-btn.edit:hover {
+                background-color: #1976d2;
+                color: white;
+            }
+
+            .action-btn.cancel:hover {
+                background-color: #c62828;
+                color: white;
+            }
+
+            .bi-pencil, .bi-x-circle {
+                display: inline-block;
+                margin-right: 4px;
+            }
+
+            .navbar-dashboard {
+                background-color: var(--primary-color);
+                padding: 0;
+                position: fixed;
+                top: 0;
+                width: 100%;
+                z-index: 100;
+                height: 80px;
+                overflow: visible;
+            }
+
+            .navbar-dashboard .container {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                height: 100%;
+            }
+
+            .navbar-dashboard .navbar-brand {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+                position: relative;
+            }
+
+            .navbar-dashboard .logo-image {
+                height: 55px;
+                width: auto;
+                object-fit: contain;
+                display: block;
+                position: relative;
+                top: 85%;
+                transform: translateY(-50%);
+            }
+
+            .d-flex.align-items-center {
+                height: 100%;
+                display: flex;
+                align-items: center;
+                padding-right: 15px;
+            }
+
+            .navbar-dashboard .nav-right {
+                margin-left: auto;
+            }
+
+            .stats-number {
+                font-size: 2.5rem;
+                font-weight: 500;
+                color: var(--dark-color);
+            }
+
+            .upcoming-appointment h5 {
+                color: var(--primary-color);
+                margin-bottom: 5px;
+            }
+
+            .upcoming-appointment p {
+                color: var(--p-color);
+                margin-bottom: 5px;
+            }
+
+            .upcoming-appointment small {
+                color: var(--dark-color);
+                opacity: 0.75;
+            }
+
+            .logout-btn {
+                color: var(--white-color);
+                background-color: transparent;
+                border: 2px solid var(--white-color);
+                padding: 10px 24px;
+                border-radius: var(--border-radius-large);
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: inline-block;
+                margin-left: 20px;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+            .logout-btn:hover {
+                background-color: var(--white-color);
+                color: var(--primary-color);
+                text-decoration: none;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .logout-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .admin-btn {
+                color: var(--white-color);
+                background-color: transparent;
+                border: 2px solid var(--white-color);
+                padding: 10px 24px;
+                border-radius: var(--border-radius-large);
+                text-decoration: none;
+                transition: all 0.3s ease;
+                display: inline-block;
+                margin-left: 20px;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+            .admin-btn:hover {
+                background-color: var(--white-color);
+                color: var(--primary-color);
+                text-decoration: none;
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+
+            .admin-btn:active {
+                transform: translateY(0);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .form-control {
+                background: var(--primary-color);
+                color: var(--white-color);
+                border: none;
+                margin-bottom: 10px;
+                transition: all 0.3s;
+            }
+
+            .form-control:hover {
+                background: var(--dark-color);
+                transform: translateY(-2px);
+            }
+
+            .welcome-text {
+                color: var(--white-color);
+                font-weight: 300;
+                margin: 0;
+                padding: 0;
+            }
+
+            .welcome-text strong {
+                font-weight: 500;
+            }
+
+            .modal-content {
+                background: var(--white-color);
+                border-radius: var(--border-radius-medium);
+            }
+
+            .modal-header {
+                border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                padding: 1.5rem;
+            }
+
+            .modal-title {
+                color: var(--primary-color);
+                font-weight: 500;
+            }
+
+            .modal-body {
+                padding: 1.5rem;
+                color: var(--p-color);
+            }
+
+            .modal-footer {
+                border-top: 1px solid rgba(0, 0, 0, 0.1);
+                padding: 1rem 1.5rem;
+            }
+
+            .btn-secondary {
+                background-color: var(--section-bg-color);
+                border: none;
+                color: var(--dark-color);
+                padding: 10px 20px;
+                border-radius: var(--border-radius-large);
+                transition: all 0.3s;
+            }
+
+            .btn-danger {
+                background-color: #dc3545;
+                border: none;
+                color: var(--white-color);
+                padding: 10px 20px;
+                border-radius: var(--border-radius-large);
+                transition: all 0.3s;
+            }
+
+            .btn-secondary:hover, .btn-danger:hover {
+                opacity: 0.8;
+                transform: translateY(-2px);
+            }
+
+            .custom-input {
+                background-color: var(--white-color) !important;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                color: var(--dark-color) !important;
+                padding: 10px 15px;
+                border-radius: var(--border-radius-small);
+                transition: all 0.3s;
+            }
+
+            .custom-input:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+                transform: translateY(-1px);
+            }
+
+            .form-label {
+                color: var(--dark-color);
+                font-weight: 500;
+                margin-bottom: 8px;
+            }
+
+            .btn-primary {
+                background-color: var(--primary-color);
+                border: none;
+                color: var(--white-color);
+                padding: 10px 20px;
+                border-radius: var(--border-radius-large);
+                transition: all 0.3s;
+            }
+
+            .btn-primary:hover {
+                opacity: 0.9;
+                transform: translateY(-2px);
+            }
+        </style>
+    </head>
+    
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-dashboard">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop">
+                </a>
+                <div class="d-flex align-items-center">
+                    <span class="welcome-text">Welcome, <strong th:text="${barber.name}"></strong></span>
+                    <form action="#" th:action="@{/logout}" method="post">
+                        <input type="submit" class="logout-btn" value="Logout"/>
+                    </form>
+                </div>
+            </div>
+        </nav>
+
+        <section class="dashboard-section">
+            <div class="container">
+                <div class="row">
+                    <!-- Appointments Section -->
+                    <div class="col-12">
+                        <div class="dashboard-card">
+                            <h3><i class="bi bi-calendar2-check"></i> Appointments Manager</h3>
+                            
+                            <div class="appointment-tabs">
+                                <button class="appointment-tab active" onclick="showAppointments('today')">Today</button>
+                                <button class="appointment-tab" onclick="showAppointments('upcoming')">Upcoming</button>
+                                <button class="appointment-tab" onclick="showAppointments('past')">Past</button>
+                            </div>
+
+                            <!-- Today's Appointments -->
+                            <div id="today-appointments" class="appointment-content active">
+                                <div class="upcoming-appointment" th:each="appointment : ${todayAppointments}">
+                                    <span class="appointment-status status-today">Today</span>
+                                    <h5 th:text="${appointment.name}"></h5>
+                                    <p th:text="${appointment.comment}"></p>
+                                    <small><i class="bi bi-clock"></i> <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'HH:mm')}"></span></small>
+                                    <div class="appointment-actions">
+                                        <button type="button" class="action-btn edit" th:attr="onclick=|showEditModal('${appointment.date}', '${appointment.name}', '${appointment.phone}', '${appointment.comment}', ${appointment.barberId})|">
+                                            <i class="bi bi-pencil"></i>
+                                            <span>Edit</span>
+                                        </button>
+                                        <button type="button" class="action-btn cancel" th:attr="onclick=|showDeleteModal('${appointment.date}', '${appointment.barberId}')|">
+                                            <i class="bi bi-x-circle"></i>
+                                            <span>Cancel</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Upcoming Appointments -->
+                            <div id="upcoming-appointments" class="appointment-content">
+                                <div class="upcoming-appointment" th:each="appointment : ${upcomingAppointments}">
+                                    <span class="appointment-status status-upcoming" th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>
+                                    <h5 th:text="${appointment.name}"></h5>
+                                    <p th:text="${appointment.comment}"></p>
+                                    <small><i class="bi bi-calendar2"></i> <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>, <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'HH:mm')}"></span></small>
+                                    <div class="appointment-actions">
+                                        <button type="button" class="action-btn edit" th:attr="onclick=|showEditModal('${appointment.date}', '${appointment.name}', '${appointment.phone}', '${appointment.comment}', ${appointment.barberId})|">
+                                            <i class="bi bi-pencil"></i>
+                                            <span>Edit</span>
+                                        </button>
+                                        <button type="button" class="action-btn cancel" th:attr="onclick=|showDeleteModal('${appointment.date}', '${appointment.barberId}', '${appointment.name}')|">
+                                            <i class="bi bi-x-circle"></i>
+                                            <span>Cancel</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Past Appointments -->
+                            <div id="past-appointments" class="appointment-content">
+                                <div class="upcoming-appointment" th:each="appointment : ${pastAppointments}">
+                                    <span class="appointment-status status-completed">Completed</span>
+                                    <h5 th:text="${appointment.name}"></h5>
+                                    <p th:text="${appointment.comment}"></p>
+                                    <small><i class="bi bi-calendar2-check"></i> <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>, <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'HH:mm')}"></span></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Cancel Appointment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to cancel the appointment for <span id="appointmentName"></span>?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <form th:action="@{/appointments/delete}" method="post" style="display: inline;" th:object="${appointment}">
+                            <input type="hidden" name="appointmentDate" id="appointmentDate">
+                            <input type="hidden" name="barberId" id="barberId">
+                            <button type="submit" class="btn btn-danger">Cancel Appointment</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit Modal -->
+        <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editModalLabel">Edit Appointment</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form th:action="@{/appointments/edit}" method="post">
+                        <div class="modal-body">
+                            <input type="hidden" name="originalDate" id="editAppointmentDate">
+                            <input type="hidden" name="barberId" id="editBarberId">
+                            
+                            <div class="mb-3">
+                                <label for="editName" class="form-label">Client Name</label>
+                                <input type="text" class="form-control custom-input" id="editName" name="name" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="editPhone" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control custom-input" id="editPhone" name="phone" 
+                                    pattern="^\+359\d{9}$" placeholder="+359888888888" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="editDateTime" class="form-label">Date and Time</label>
+                                <input type="text" class="form-control custom-input" id="editDateTime" name="newDate" required>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="editComment" class="form-label">Comment</label>
+                                <textarea class="form-control custom-input" id="editComment" name="comment" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/custom.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            // Initialize active section from localStorage or default to 'today'
+            document.addEventListener('DOMContentLoaded', function() {
+                const activeSection = localStorage.getItem('activeSection') || 'today';
+                showAppointments(activeSection);
+
+                // Initialize datetime picker
+                flatpickr("#editDateTime", {
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                    minTime: "10:00",
+                    maxTime: "19:00",
+                    minuteIncrement: 30,
+                    time_24hr: true,
+                    minDate: "today",
+                    disable: [
+                        function(date) {
+                            // Disable Sundays (0)
+                            return date.getDay() === 0;
+                        }
+                    ],
+                    locale: {
+                        firstDayOfWeek: 1 // Start week on Monday
+                    }
+                });
+            });
+
+            function showAppointments(section) {
+                // Store the active section
+                localStorage.setItem('activeSection', section);
+                
+                // Hide all appointment contents
+                document.querySelectorAll('.appointment-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show selected section
+                document.getElementById(section + '-appointments').classList.add('active');
+                
+                // Update tab styling
+                document.querySelectorAll('.appointment-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`.appointment-tab[onclick*="${section}"]`).classList.add('active');
+            }
+
+            function showDeleteModal(date, barberId, name) {
+                document.getElementById('barberId').value = barberId;
+                document.getElementById('appointmentName').textContent = name;
+                document.getElementById('appointmentDate').value = date;
+                var deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                deleteModal.show();
+            }
+
+            function showEditModal(date, name, phone, comment, barberId) {
+                document.getElementById('editAppointmentDate').value = date;
+                document.getElementById('editName').value = name;
+                document.getElementById('editPhone').value = phone;
+                document.getElementById('editComment').value = comment;
+                document.getElementById('editBarberId').value = barberId;
+                
+                // Convert SQL timestamp to datetime format for flatpickr
+                const appointmentDate = new Date(date);
+                const picker = document.querySelector("#editDateTime")._flatpickr;
+                picker.setDate(appointmentDate);
+                
+                var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                editModal.show();
+            }
+        </script>
+    </body>
+</html> 

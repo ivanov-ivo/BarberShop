@@ -1,0 +1,939 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Gentlemen's Barber Shop</title>
+
+    <!-- CSS FILES -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="css/bootstrap-icons.css" rel="stylesheet">
+
+    <link href="css/templatemo-barber-shop.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    
+    <style>
+        /* Override hover effects to prevent color changes */
+        
+        .social-icon-link {
+            transition: none !important;
+        }
+        
+        .team-info {
+            transition: none !important;
+        }
+        /* --- Barber Card Enhancements --- */
+        .barber-card {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+            transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+            position: relative;
+            background: #fff;
+        }
+        .barber-card:hover {
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+        }
+        .barber-photo-wrap {
+            position: relative;
+            width: 100%;
+            height: 100px;
+            background: #f7f7f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .barber-photo {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 6px solid #fff;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.10);
+            position: relative;
+            z-index: 2;
+            margin-top: 10px;
+        }
+        .barber-gradient {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.25) 100%);
+            z-index: 1;
+        }
+        .barber-team-info {
+            position: relative;
+            z-index: 3;
+            background: #fff;
+            padding: 40px 20px 30px; /* more vertical space */
+            margin-top: -20px; /* less overlap with photo */
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 -2px 12px rgba(0,0,0,0.03);
+        }
+        .barber-name {
+            font-size: 1.7rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 0.25rem;
+            letter-spacing: 0.5px;
+        }
+        .barber-branch-badge {
+            display: inline-block;
+            background: #f5f5f5;
+            color: #6c757d;
+            font-size: 0.85rem;
+            border-radius: 12px;
+            padding: 2px 12px;
+            margin-left: 8px;
+            font-weight: 500;
+        }
+        .barber-divider {
+            width: 40px;
+            height: 3px;
+            background: #e0b97a;
+            border-radius: 2px;
+            margin: 12px 0 16px 0;
+        }
+        .barber-specialization {
+            font-size: 1.15rem;
+            color: #555;
+            opacity: 0.85;
+            margin-bottom: 0.5rem;
+        }
+        .barber-socials {
+            display: flex;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .barber-socials .social-icon-link {
+            background: #f7f7f7;
+            border-radius: 50%;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #888;
+            border: 1px solid #e0e0e0;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+        .barber-socials .social-icon-link:hover {
+            background: #e0b97a;
+            color: #fff;
+            transform: scale(1.12) rotate(-6deg);
+        }
+        
+        /* Flatpickr Calendar Styles for Booking Section */
+        .flatpickr-calendar {
+            position: fixed !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 99999 !important;
+        }
+
+        /* Add overlay behind the calendar */
+        .flatpickr-calendar::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        /* Ensure calendar is above other elements */
+        .flatpickr-calendar.open {
+            display: inline-block !important;
+        }
+
+        .aesthetic-barber-card {
+            background: linear-gradient(135deg, #fff 80%, #f7f3ed 100%);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(224,185,122,0.10), 0 1.5px 8px rgba(0,0,0,0.07);
+            transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+            padding-bottom: 20px;
+            border: 1.5px solid #f3e7d4;
+        }
+        .aesthetic-barber-card:hover {
+            transform: translateY(-10px) scale(1.04);
+            box-shadow: 0 16px 40px rgba(224,185,122,0.18), 0 2px 12px rgba(0,0,0,0.10);
+        }
+        .barber-header {
+            gap: 12px;
+        }
+        .barber-photo-wrap {
+            background: linear-gradient(120deg, #e0b97a 0%, #fff 100%);
+            height: 160px; /* Increased from 120px */
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            border-radius: 24px 24px 0 0;
+            position: relative;
+        }
+        .barber-photo {
+            width: 140px; /* Increased from 110px */
+            height: 140px; /* Increased from 110px */
+            object-fit: cover;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            box-shadow: 0 4px 16px rgba(224,185,122,0.15);
+            margin-top: 20px;
+            z-index: 2;
+        }
+        .barber-gradient {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(224,185,122,0.10) 0%, rgba(224,185,122,0.18) 100%);
+            z-index: 1;
+            border-radius: 24px 24px 0 0;
+        }
+        .barber-team-info {
+            background: #fff;
+            border-radius: 0 0 24px 24px;
+            padding: 32px 24px 20px;
+            margin-top: -30px;
+            box-shadow: 0 -2px 12px rgba(224,185,122,0.04);
+            position: relative;
+            z-index: 3;
+        }
+        .barber-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #222;
+            margin-bottom: 0;
+            letter-spacing: 0.5px;
+        }
+        .barber-branch-badge {
+            background: #e0b97a;
+            color: #fff;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            padding: 3px 14px;
+            margin-left: 10px;
+            font-weight: 600;
+            box-shadow: 0 1px 4px rgba(224,185,122,0.10);
+        }
+        .barber-divider {
+            width: 40px;
+            height: 3px;
+            background: #e0b97a;
+            border-radius: 2px;
+            margin: 14px 0 18px 0;
+        }
+        .barber-specialization {
+            font-size: 1.1rem;
+            color: #555;
+            opacity: 0.92;
+            font-weight: 500;
+        }
+        .barber-socials {
+            display: flex;
+            gap: 16px;
+        }
+        .barber-socials .social-icon-link {
+            background: #f7f7f7;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #e0b97a;
+            border: 1.5px solid #e0b97a;
+            transition: background 0.2s, color 0.2s, transform 0.2s;
+        }
+        .barber-socials .social-icon-link:hover {
+            background: #e0b97a;
+            color: #fff;
+            transform: scale(1.13) rotate(-8deg);
+        }
+        .section-divider {
+            margin: 0;
+            padding: 0;
+            line-height: 0;
+            background: transparent;
+        }
+        .section-quote {
+            background: #fffbe9;
+            border-top: 1.5px solid #e0b97a;
+            border-bottom: 1.5px solid #e0b97a;
+            margin-bottom: 0;
+        }
+    </style>
+    <!--
+
+TemplateMo 585 Barber Shop
+
+https://templatemo.com/tm-585-barber-shop
+
+-->
+</head>
+
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block sidebar collapse p-0">
+
+                <div
+                    class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" align="">
+                    </a>
+
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" data-section="#section_1"
+                                href="javascript:void(0);">Home</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" data-section="#section_2" href="javascript:void(0);">Our
+                                Story</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" data-section="#section_3"
+                                href="javascript:void(0);">Services</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" data-section="#section_4" href="javascript:void(0);">Price
+                                List</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" data-section="#section_5"
+                                href="javascript:void(0);">Contact</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login">Login</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="col-md-8 ms-sm-auto col-lg-9 p-0">
+                <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-lg-8 col-12">
+                                <h1 class="text-white mb-lg-3 mb-4"><strong>Barber <em>Shop</em></strong></h1>
+                                <p class="text-black">Get the most professional haircut for you</p>
+                                <br>
+                                <a class="btn custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2"
+                                    data-section="#section_2" href="javascript:void(0);">About Us</a>
+
+                                <a class="btn custom-btn smoothscroll mb-2" data-section="#section_3"
+                                    href="javascript:void(0);">What we do</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="custom-block d-lg-flex flex-column justify-content-center align-items-center">
+                        <img src="images/vintage-chair-barbershop.jpg" class="custom-block-image img-fluid" alt="">
+
+                        <h4><strong class="text-white">Hurry Up! Get good haircut.</strong></h4>
+
+                        <a href="#booking-section" class="smoothscroll btn custom-btn custom-btn-italic mt-3">Book a
+                            seat</a>
+                    </div>
+                </section>
+
+
+                <section class="about-section section-padding" id="section_2">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-12 mx-auto">
+                                <h2 class="mb-4">Best hairdressers</h2>
+
+                                <div class="border-bottom pb-3 mb-5">
+                                    <p>Gentlemen's Barber Shop is for everyone. You can find the best hairdressers at
+                                        Gentlemen's BarberShop</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <h6 class="mb-5">Meet Barbers</h6>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6 col-12 mb-5" th:each="barber : ${barbers}">
+                                <div class="barber-card aesthetic-barber-card">
+                                    <div class="barber-photo-wrap">
+                                        <img th:src="@{${barber.photo}}" class="barber-photo" alt="Barber photo">
+                                        <div class="barber-gradient"></div>
+                                    </div>
+                                    <div class="barber-team-info">
+                                        <div class="barber-header d-flex align-items-center mb-2">
+                                            <span class="barber-name" th:text="${barber.name}">Barber Name</span>
+                                            <span class="barber-branch-badge" th:text="${barber.branch}">Branch</span>
+                                        </div>
+                                        <div class="barber-divider"></div>
+                                        <div class="barber-specialization d-flex align-items-center mb-2">
+                                            <i class="bi-scissors me-2" style="color:#e0b97a;"></i>
+                                            <span th:text="${barber.information ?: 'Hair Specialist'}">Specialization</span>
+                                        </div>
+                                        <div class="barber-socials mt-3">
+                                            <a href="#" class="social-icon-link bi-facebook" title="Facebook"></a>
+                                            <a href="#" class="social-icon-link bi-instagram" title="Instagram"></a>
+                                            <a href="#" class="social-icon-link bi-whatsapp" title="WhatsApp"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Decorative Divider -->
+                <div class="section-divider">
+                    <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100%;height:80px;">
+                        <path d="M0,40 C480,120 960,0 1440,40 L1440,80 L0,80 Z" fill="#e0b97a" fill-opacity="0.15"/>
+                    </svg>
+                </div>
+
+                <!-- Removed featured-section (discount section) -->
+
+
+                <section class="services-section section-padding" id="section_3">
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-lg-12 col-12">
+                                <h2 class="mb-5">Services</h2>
+                            </div>
+
+                            <div class="col-lg-6 col-12 mb-4">
+                                <div class="services-thumb">
+                                    <img src="images/services/woman-cutting-hair-man-salon.jpg"
+                                        class="services-image img-fluid" alt="">
+
+                                    <div class="services-info d-flex align-items-end">
+                                        <h4 class="mb-0">Hair cut</h4>
+
+                                        <strong class="services-thumb-price">$36.00</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12 mb-4">
+                                <div class="services-thumb">
+                                    <img src="images/services/hairdresser-grooming-their-client.jpg"
+                                        class="services-image img-fluid" alt="">
+
+                                    <div class="services-info d-flex align-items-end">
+                                        <h4 class="mb-0">Washing</h4>
+
+                                        <strong class="services-thumb-price">$25.00</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12 mb-4 mb-lg-0">
+                                <div class="services-thumb">
+                                    <img src="images/services/hairdresser-grooming-client.jpg"
+                                        class="services-image img-fluid" alt="">
+
+                                    <div class="services-info d-flex align-items-end">
+                                        <h4 class="mb-0">Shaves</h4>
+
+                                        <strong class="services-thumb-price">$30.00</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-12">
+                                <div class="services-thumb">
+                                    <img src="images/services/boy-getting-haircut-salon-front-view.jpg"
+                                        class="services-image img-fluid" alt="">
+
+                                    <div class="services-info d-flex align-items-end">
+                                        <h4 class="mb-0">Kids</h4>
+
+                                        <strong class="services-thumb-price">$25.00</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+                <section class="booking-section section-padding" id="booking-section">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-10 col-12 mx-auto">
+                                <form action="#" th:action="@{/appointments/booking}" method="post"
+                                    class="custom-form booking-form" id="booking-form" role="form">
+                                    <div class="text-center mb-5">
+                                        <h2 class="mb-1">Book a seat</h2>
+                                        <p>Please fill out the form and we get back to you</p>
+                                        
+                                        <!-- Success message -->
+                                        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <span th:text="${success}">Success message</span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <!-- Error message -->
+                                        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                                            <span th:text="${error}">Error message</span>
+                                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        </div>
+                                    </div>
+
+                                    <div class="booking-form-body">
+                                        <div class="row">
+                                            <div class="col-lg-6 col-12">
+                                                <input type="text" name="name" id="name" class="form-control"
+                                                    placeholder="Full name" required>
+                                            </div>
+
+                                            <div class="col-lg-6 col-12">
+                                                <input type="tel" class="form-control" name="phone"
+                                                    placeholder="Mobile +359xxxxxxxxx" pattern="\+359\d{9}" required>
+                                            </div>
+
+                                            <div class="col-lg-6 col-12">
+                                                <input type="text" name="date" id="date" class="form-control"
+                                                    placeholder="Select Date and Time" required>
+                                            </div>
+
+                                            <div class="col-lg-6 col-12">
+                                                <select class="form-select form-control" name="barber" id="barber"
+                                                    aria-label="Default select example" required>
+                                                    <option value="">Select Barber</option>
+                                                    <option th:each="barber : ${barbers}" 
+                                                            th:value="${barber.id}" 
+                                                            th:text="${barber.name + ', ' + barber.branch}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <textarea name="message" rows="3" class="form-control" id="message"
+                                            placeholder="Comment (Optional)"></textarea>
+
+                                        <div class="col-lg-4 col-md-10 col-8 mx-auto">
+                                            <button type="submit" class="form-control">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="price-list-section section-padding" id="section_4">
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-lg-8 col-12">
+                                <div class="price-list-thumb-wrap">
+                                    <div class="mb-4">
+                                        <h2 class="mb-2">Price List</h2>
+
+                                        <strong>Starting at $25</strong>
+                                    </div>
+
+                                    <div class="price-list-thumb">
+                                        <h6 class="d-flex">
+                                            Haircut
+                                            <span class="price-list-thumb-divider"></span>
+
+                                            <strong>$32.00</strong>
+                                        </h6>
+                                    </div>
+
+                                    <div class="price-list-thumb">
+                                        <h6 class="d-flex">
+                                            Beard Trim
+                                            <span class="price-list-thumb-divider"></span>
+
+                                            <strong>$26.00</strong>
+                                        </h6>
+                                    </div>
+
+                                    <div class="price-list-thumb">
+                                        <h6 class="d-flex">
+                                            Razor Cut
+                                            <span class="price-list-thumb-divider"></span>
+
+                                            <strong>$36.00</strong>
+                                        </h6>
+                                    </div>
+
+                                    <div class="price-list-thumb">
+                                        <h6 class="d-flex">
+                                            Shaves
+                                            <span class="price-list-thumb-divider"></span>
+
+                                            <strong>$30.00</strong>
+                                        </h6>
+                                    </div>
+
+                                    <div class="price-list-thumb">
+                                        <h6 class="d-flex">
+                                            Styling / Color
+                                            <span class="price-list-thumb-divider"></span>
+
+                                            <strong>$25.00</strong>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div
+                                class="col-lg-4 col-12 custom-block-bg-overlay-wrap mt-5 mb-5 mb-lg-0 mt-lg-0 pt-3 pt-lg-0">
+                                <img src="images/vintage-chair-barbershop.jpg"
+                                    class="custom-block-bg-overlay-image img-fluid" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                </section>
+
+
+                <section class="contact-section" id="section_5">
+                    <div class="section-padding section-bg">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-8 col-12 mx-auto">
+                                    <h2 class="text-center">Say hello</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-padding">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-6 col-12">
+                                    <h5 class="mb-3"><strong>Contact</strong> Information</h5>
+
+                                    <p class="text-white d-flex mb-1">
+                                        <a href="tel: 120-240-3600" class="site-footer-link">
+                                            (+49)
+                                            120-240-3600
+                                        </a>
+                                    </p>
+
+                                    <p class="text-white d-flex">
+                                        <a href="mailto:info@yourgmail.com" class="site-footer-link">
+                                            hello@barber.beauty
+                                        </a>
+                                    </p>
+
+                                    <ul class="social-icon">
+                                        <li class="social-icon-item">
+                                            <a href="#" class="social-icon-link bi-facebook">
+                                            </a>
+                                        </li>
+
+                                        <li class="social-icon-item">
+                                            <a href="#" class="social-icon-link bi-twitter">
+                                            </a>
+                                        </li>
+
+                                        <li class="social-icon-item">
+                                            <a href="#" class="social-icon-link bi-instagram">
+                                            </a>
+                                        </li>
+
+                                        <li class="social-icon-item">
+                                            <a href="#" class="social-icon-link bi-youtube">
+                                            </a>
+                                        </li>
+
+                                        <li class="social-icon-item">
+                                            <a href="#" class="social-icon-link bi-whatsapp">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-5 col-12 contact-block-wrap mt-5 mt-lg-0 pt-4 pt-lg-0 mx-auto">
+                                    <div class="contact-block">
+                                        <h6 class="mb-0">
+                                            <i class="custom-icon bi-shop me-3"></i>
+
+                                            <strong>Open Daily</strong>
+
+                                            <span class="ms-auto">10:00 AM - 8:00 PM</span>
+                                        </h6>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-12 mx-auto mt-5 pt-5">
+                                    <iframe class="google-map"
+                                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7702.122299518348!2d13.396786616231472!3d52.531268574169616!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47a85180d9075183%3A0xbba8c62c3dc41a7d!2sBarbabella%20Barbershop!5e1!3m2!1sen!2sth!4v1673886261201!5m2!1sen!2sth"
+                                        width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="site-footer">
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-lg-12 col-12">
+                                <h4 class="site-footer-title mb-4">Our Branches</h4>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-11">
+                                <div class="site-footer-thumb">
+                                    <strong class="mb-1">Shumen</strong>
+
+                                    <p>Shumen, Bulgaria</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-11">
+                                <div class="site-footer-thumb">
+                                    <strong class="mb-1">Sofia</strong>
+
+                                    <p>Sofia, Bulgaria</p>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-11">
+                                <strong class="mb-1">Plovdiv</strong>
+
+                                <p>Plovdiv, Bulgaria</p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/click-scroll.js"></script>
+        <script src="js/custom.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            // Initialize Flatpickr for booking date/time
+            document.addEventListener('DOMContentLoaded', function() {
+                flatpickr("#date", {
+                    enableTime: true,
+                    dateFormat: "Y-m-d H:i",
+                    minTime: "10:00",
+                    maxTime: "19:00",
+                    minuteIncrement: 30,
+                    time_24hr: true,
+                    minDate: "today",
+                    disable: [
+                        function(date) {
+                            // Disable Sundays (0)
+                            return date.getDay() === 0;
+                        }
+                    ],
+                    locale: {
+                        firstDayOfWeek: 1 // Start week on Monday
+                    },
+                    onReady: function(selectedDates, dateStr, instance) {
+                        setDynamicMinTime(instance);
+                    },
+                    onChange: function(selectedDates, dateStr, instance) {
+                        setDynamicMinTime(instance);
+                    }
+                });
+
+                function setDynamicMinTime(instance) {
+                    const today = new Date();
+                    const selectedDate = instance.selectedDates[0] || today;
+                    const isToday = selectedDate.toDateString() === today.toDateString();
+                    if (isToday) {
+                        // Set minTime to now (rounded up to next 30 min slot, but not before 10:00)
+                        let minHour = today.getHours();
+                        let minMinute = today.getMinutes();
+                        // Round up to next 30 min slot
+                        minMinute = minMinute <= 30 ? 30 : 0;
+                        if (minMinute === 0) minHour += 1;
+                        // Clamp to opening time
+                        if (minHour < 10) {
+                            minHour = 10;
+                            minMinute = 0;
+                        }
+                        // Clamp to closing time
+                        if (minHour > 19 || (minHour === 19 && minMinute > 0)) {
+                            minHour = 19;
+                            minMinute = 30;
+                        }
+                        const minTimeStr = `${String(minHour).padStart(2, '0')}:${String(minMinute).padStart(2, '0')}`;
+                        instance.set({ minTime: minTimeStr });
+                    } else {
+                        instance.set({ minTime: "10:00" });
+                    }
+                }
+            });
+            
+            // Unified menu navigation system
+            $(document).ready(function() {
+                console.log('Menu system initialized...');
+                
+                // Handle menu item clicks
+                $(document).on('click', '.click-scroll', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const sectionId = $(this).data('section');
+                    console.log('Menu item clicked:', sectionId);
+                    
+                    if (sectionId) {
+                        const targetSection = $(sectionId);
+                        if (targetSection.length) {
+                            // Update active state immediately for better UX
+                            updateActiveMenuState(sectionId);
+                            
+                            // Instant scroll to section for maximum speed
+                            $('html, body').scrollTop(targetSection.offset().top);
+                            
+                            // Close mobile sidebar immediately
+                            const sidebar = document.getElementById('sidebarMenu');
+                            if (sidebar && window.innerWidth < 768) {
+                                const bsCollapse = new bootstrap.Collapse(sidebar, {hide: true});
+                            }
+                        }
+                    }
+                });
+                
+                // Handle smoothscroll buttons (non-menu items)
+                $(document).on('click', '.smoothscroll:not(.click-scroll)', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    const href = $(this).attr('href');
+                    if (href && href.startsWith('#')) {
+                        const targetSection = $(href);
+                        if (targetSection.length) {
+                            $('html, body').scrollTop(targetSection.offset().top);
+                        }
+                    }
+                });
+                
+                // Handle scroll-based active section highlighting
+                $(window).scroll(function() {
+                    updateActiveSectionOnScroll();
+                });
+                
+                // Initial active section update
+                updateActiveSectionOnScroll();
+            });
+            
+            // Update active menu state
+            function updateActiveMenuState(sectionId) {
+                $('#sidebarMenu .nav-link').removeClass('active');
+                $(`a[data-section="${sectionId}"]`).addClass('active');
+            }
+            
+            // Update active section based on scroll position
+            function updateActiveSectionOnScroll() {
+                const currentScroll = $(window).scrollTop();
+                const windowHeight = $(window).height();
+                const documentHeight = $(document).height();
+                let found = false;
+                
+                // Get all sections
+                const sections = [];
+                $('.click-scroll[data-section]').each(function() {
+                    const sectionId = $(this).data('section');
+                    const section = $(sectionId);
+                    if (section.length) {
+                        const sectionTop = section.offset().top;
+                        const sectionHeight = section.height();
+                        
+                        sections.push({
+                            id: sectionId,
+                            top: sectionTop - 100, // Offset for better detection
+                            bottom: sectionTop + sectionHeight,
+                            link: this
+                        });
+                    }
+                });
+                
+                // Sort sections by position
+                sections.sort((a, b) => b.top - a.top);
+                
+                // Find current section
+                const viewportMiddle = currentScroll + (windowHeight / 2);
+                for (let i = 0; i < sections.length; i++) {
+                    const section = sections[i];
+                    if (viewportMiddle >= section.top && viewportMiddle < section.bottom) {
+                        updateActiveMenuState(section.id);
+                        found = true;
+                        break;
+                    }
+                }
+                
+                // Handle bottom of page
+                if (!found && (currentScroll + windowHeight >= documentHeight - 50)) {
+                    const lastSection = sections[0];
+                    if (lastSection) {
+                        updateActiveMenuState(lastSection.id);
+                    }
+                }
+            }
+        </script>
+        <!-- Save scroll position before leaving the page -->
+        <script>
+            window.addEventListener('beforeunload', function() {
+                localStorage.setItem('scrollPosition', window.scrollY);
+            });
+
+            // Restore scroll position on load
+            window.addEventListener('DOMContentLoaded', function() {
+                const scrollPosition = localStorage.getItem('scrollPosition');
+                if (scrollPosition !== null) {
+                    window.scrollTo(0, parseInt(scrollPosition, 10));
+                    // Optionally clear the saved position after restoring
+                    // localStorage.removeItem('scrollPosition');
+                }
+            });
+        </script>
+    </div>
+    </div>
+
+</body>
+
+</html>
