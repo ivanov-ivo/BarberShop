@@ -41,7 +41,7 @@ The BarberShop application follows a layered architecture pattern with clear sep
 #### IndexController
 - **Purpose**: Handles public-facing pages
 - **Key Methods**:
-  - `index()`: Displays homepage with barber listings
+  - `index()`: Displays homepage with barberDatabaseEntity listings
 - **Dependencies**: BarberService, branches configuration
 
 #### LoginController
@@ -53,24 +53,24 @@ The BarberShop application follows a layered architecture pattern with clear sep
 #### DashboardController
 - **Purpose**: Barber dashboard functionality
 - **Key Methods**:
-  - `dashboard()`: Shows barber's appointments
+  - `dashboard()`: Shows barberDatabaseEntity's appointmentDatabaseEntities
 - **Security**: Requires ROLE_BARBER or ROLE_ADMIN
 
 #### AdminController
 - **Purpose**: Administrative operations
 - **Key Methods**:
   - `admin()`: Admin panel view
-  - `addBarber()`: Create new barber
-  - `editBarber()`: Update barber information
-  - `deleteBarber()`: Remove barber
+  - `addBarber()`: Create new barberDatabaseEntity
+  - `editBarber()`: Update barberDatabaseEntity information
+  - `deleteBarber()`: Remove barberDatabaseEntity
 - **Security**: Requires ROLE_ADMIN
 
 #### AppointmentsController
 - **Purpose**: Appointment management
 - **Key Methods**:
-  - `booking()`: Create new appointment
-  - `editAppointment()`: Update appointment
-  - `deleteAppointment()`: Remove appointment
+  - `booking()`: Create new appointmentDatabaseEntity
+  - `editAppointment()`: Update appointmentDatabaseEntity
+  - `deleteAppointment()`: Remove appointmentDatabaseEntity
 
 ### Services Package (`com.example.barbershop.service`)
 
@@ -78,7 +78,7 @@ The BarberShop application follows a layered architecture pattern with clear sep
 ```java
 @Service
 public class UserService {
-    // User CRUD operations
+    // UserDatabaseEntity CRUD operations
     // Password encoding
     // Role management
 }
@@ -88,7 +88,7 @@ public class UserService {
 ```java
 @Service
 public class BarberService {
-    // Barber CRUD operations
+    // BarberDatabaseEntity CRUD operations
     // Branch filtering
     // Photo management
 }
@@ -98,7 +98,7 @@ public class BarberService {
 ```java
 @Service
 public class AppointmentService {
-    // Appointment CRUD operations
+    // AppointmentDatabaseEntity CRUD operations
     // Date/time validation
     // Conflict checking
 }
@@ -119,7 +119,7 @@ public class FileUploadService {
 @Component
 @EnableScheduling
 public class DeleteOldAppointmentsScheduler {
-    // Automated cleanup of old appointments
+    // Automated cleanup of old appointmentDatabaseEntities
     // Scheduled task execution
 }
 ```
@@ -143,7 +143,7 @@ public class User {
 #### Barber Entity
 ```java
 @Entity
-@Table(name = "barbers")
+@Table(name = "barberDatabaseEntities")
 public class Barber {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -158,7 +158,7 @@ public class Barber {
 #### Appointment Entity
 ```java
 @Entity
-@Table(name = "appointments")
+@Table(name = "appointmentDatabaseEntities")
 @IdClass(BarberId.class)
 public class Appointment {
     @Id
@@ -177,7 +177,7 @@ public class Appointment {
 ```java
 @Repository
 public interface UserRepository extends JpaRepository<User, String> {
-    // Custom queries for user management
+    // Custom queries for userDatabaseEntity management
 }
 ```
 
@@ -185,7 +185,7 @@ public interface UserRepository extends JpaRepository<User, String> {
 ```java
 @Repository
 public interface BarberRepository extends JpaRepository<Barber, Long> {
-    // Custom queries for barber operations
+    // Custom queries for barberDatabaseEntity operations
 }
 ```
 
@@ -193,7 +193,7 @@ public interface BarberRepository extends JpaRepository<Barber, Long> {
 ```java
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, BarberId> {
-    // Custom queries for appointment management
+    // Custom queries for appointmentDatabaseEntity management
 }
 ```
 
@@ -222,7 +222,7 @@ public class SecurityConfig {
 - `/login`: Public access
 - `/dashboard`: ROLE_BARBER, ROLE_ADMIN
 - `/admin`: ROLE_ADMIN only
-- `/appointments/booking`: Public access
+- `/appointmentDatabaseEntities/booking`: Public access
 - Static resources: Public access
 
 ## 🗄 Database Design
@@ -248,7 +248,7 @@ CREATE TABLE users (
 
 #### Barbers Table
 ```sql
-CREATE TABLE barbers (
+CREATE TABLE barberDatabaseEntities (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     photo VARCHAR(500),
@@ -259,7 +259,7 @@ CREATE TABLE barbers (
 
 #### Appointments Table
 ```sql
-CREATE TABLE appointments (
+CREATE TABLE appointmentDatabaseEntities (
     date TIMESTAMP,
     id BIGINT,
     name VARCHAR(255),
@@ -272,11 +272,11 @@ CREATE TABLE appointments (
 ## 🔄 Data Flow
 
 ### Appointment Booking Flow
-1. **Customer Input**: Name, phone, date, barber selection
+1. **Customer Input**: Name, phone, date, barberDatabaseEntity selection
 2. **Validation**: Server-side validation of input data
-3. **Conflict Check**: Verify appointment slot availability
-4. **Database Save**: Store appointment in database
-5. **Response**: Success/error message to user
+3. **Conflict Check**: Verify appointmentDatabaseEntity slot availability
+4. **Database Save**: Store appointmentDatabaseEntity in database
+5. **Response**: Success/error message to userDatabaseEntity
 
 ### Admin Operations Flow
 1. **Authentication**: Verify admin credentials
@@ -295,7 +295,7 @@ CREATE TABLE appointments (
 - **Flatpickr**: Date/time picker component
 
 ### Key Templates
-- `index.html`: Homepage with barber listings
+- `index.html`: Homepage with barberDatabaseEntity listings
 - `login.html`: Authentication form
 - `dashboard.html`: Barber dashboard
 - `admin.html`: Administrative interface

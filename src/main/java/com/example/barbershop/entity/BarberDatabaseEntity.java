@@ -15,7 +15,7 @@ import jakarta.persistence.GenerationType;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Barber {
+public class BarberDatabaseEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +34,7 @@ public class Barber {
     @Column(name = "information")
     private String information;
 
-    public Barber(String name, String photo, String branch, String information) {
+    public BarberDatabaseEntity(String name, String photo, String branch, String information) {
         this.name = name;
         this.photo = photo;
         this.branch = branch;

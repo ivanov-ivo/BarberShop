@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "appointments")
-@IdClass(BarberId.class)
+@IdClass(AppointmentId.class)
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Appointment {
+public class AppointmentDatabaseEntity {
     
     @Id
     @Column(name = "date")

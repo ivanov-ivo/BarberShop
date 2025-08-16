@@ -1,14 +1,16 @@
 package com.example.barbershop.controller;
 
+import com.example.barbershop.entity.AppointmentDatabaseEntity;
+import com.example.barbershop.entity.BarberDatabaseEntity;
+import com.example.barbershop.entity.UserDatabaseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
-import com.example.barbershop.service.UserService;
-import com.example.barbershop.service.BarberService;
-import com.example.barbershop.service.AppointmentService;
-import com.example.barbershop.entity.User;
-import com.example.barbershop.entity.Barber;
+import com.example.barbershop.service.UserServiceImpl;
+import com.example.barbershop.service.BarberServiceImpl;
+import com.example.barbershop.service.AppointmentServiceImpl;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import com.example.barbershop.service.FileUploadService;
@@ -19,8 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.http.ResponseEntity;
-import com.example.barbershop.entity.Appointment;
-import com.example.barbershop.entity.BarberId;
+import com.example.barbershop.entity.AppointmentId;
 import java.sql.Timestamp;
 import java.util.Collections;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -28,18 +29,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Controller
 public class AdminController {
 
-    private UserService userService;
-    private BarberService barberService;
-    private AppointmentService appointmentService;
+    private UserServiceImpl userServiceImpl;
+    private BarberServiceImpl barberServiceImpl;
+    private AppointmentServiceImpl appointmentService;
     private FileUploadService fileUploadService;
     private PasswordEncoder passwordEncoder;
 
     @Value("${branches}")
     private List<String> branches;
 
-    public AdminController(UserService userService, BarberService barberService, AppointmentService appointmentService, FileUploadService fileUploadService, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
-        this.barberService = barberService;
+    public AdminController(UserServiceImpl userServiceImpl, BarberServiceImpl barberServiceImpl, AppointmentServiceImpl appointmentService, FileUploadService fileUploadService, PasswordEncoder passwordEncoder) {
+        this.userServiceImpl = userServiceImpl;
+        this.barberServiceImpl = barberServiceImpl;
         this.appointmentService = appointmentService;
         this.fileUploadService = fileUploadService;
         this.passwordEncoder = passwordEncoder;
@@ -47,17 +48,17 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String admin(Model model, Authentication authentication) {
-        User user = userService.findById(authentication.getName());
-        Barber barber = barberService.findById(user.getBarberId());
-        List<Barber> barbers = barberService.findAll();
-        List<Appointment> appointments = appointmentService.findByBarberId(barber.getId());
-        Collections.reverse(appointments);
+        UserDatabaseEntity userDatabaseEntity = userServiceImpl.findById(authentication.getName());
+        BarberDatabaseEntity barberDatabaseEntity = barberServiceImpl.findById(userDatabaseEntity.getBarberId());
+        List<BarberDatabaseEntity> barberDatabaseEntities = barberServiceImpl.findAll();
+        List<AppointmentDatabaseEntity> appointmentDatabaseEntities = appointmentService.findByBarberId(barberDatabaseEntity.getId());
+        Collections.reverse(appointmentDatabaseEntities);
         
-        model.addAttribute("user", user);
-        model.addAttribute("barber", barber);
-        model.addAttribute("barbers", barbers);
+        model.addAttribute("user", userDatabaseEntity);
+        model.addAttribute("barber", barberDatabaseEntity);
+        model.addAttribute("barbers", barberDatabaseEntities);
         model.addAttribute("branches", branches);
-        model.addAttribute("appointments", appointments);
+        model.addAttribute("appointments", appointmentDatabaseEntities);
         return "admin";
     }
 
@@ -71,23 +72,23 @@ public class AdminController {
                           @RequestParam("barberRole") String role) {
         try {
             String photoPath = fileUploadService.uploadFile(photo);
-            Barber barber = new Barber();
-            barber.setName(name);
-            barber.setPhoto(photoPath);
-            barber.setBranch(branch);
-            barber.setInformation(information);
+            BarberDatabaseEntity barberDatabaseEntity = new BarberDatabaseEntity();
+            barberDatabaseEntity.setName(name);
+            barberDatabaseEntity.setPhoto(photoPath);
+            barberDatabaseEntity.setBranch(branch);
+            barberDatabaseEntity.setInformation(information);
             
-            // Save barber first to get the ID
-            barber = barberService.save(barber);
+            // Save barberDatabaseEntity first to get the ID
+            barberDatabaseEntity = barberServiceImpl.save(barberDatabaseEntity);
             
-            // Now create and save user with the barber's ID
-            User user = new User();
-            user.setUsername(email);
-            user.setPassword(passwordEncoder.encode(password));
-            user.setEnabled(true);
-            user.setRole(role);
-            user.setBarberId(barber.getId());
-            userService.save(user);
+            // Now create and save userDatabaseEntity with the barberDatabaseEntity's ID
+            UserDatabaseEntity userDatabaseEntity = new UserDatabaseEntity();
+            userDatabaseEntity.setUsername(email);
+            userDatabaseEntity.setPassword(passwordEncoder.encode(password));
+            userDatabaseEntity.setEnabled(true);
+            userDatabaseEntity.setRole(role);
+            userDatabaseEntity.setBarberId(barberDatabaseEntity.getId());
+            userServiceImpl.save(userDatabaseEntity);
             
             return "redirect:/admin";
         } catch (IOException e) {
@@ -106,34 +107,34 @@ public class AdminController {
                            @RequestParam(value = "barberPassword", required = false) String password,
                            @RequestParam(value = "barberRole", required = false) String role) {
         try {
-            Barber barber = barberService.findById(id.longValue());
-            User user = userService.findByBarberId(id.longValue());
+            BarberDatabaseEntity barberDatabaseEntity = barberServiceImpl.findById(id.longValue());
+            UserDatabaseEntity userDatabaseEntity = userServiceImpl.findByBarberId(id.longValue());
             
-            if (barber != null && user != null) {
-                barber.setName(name);
-                barber.setBranch(branch);
-                barber.setInformation(information);
+            if (barberDatabaseEntity != null && userDatabaseEntity != null) {
+                barberDatabaseEntity.setName(name);
+                barberDatabaseEntity.setBranch(branch);
+                barberDatabaseEntity.setInformation(information);
                 
                 // Update email and password if provided
                 if (email != null && !email.isEmpty()) {
-                    user.setUsername(email);
+                    userDatabaseEntity.setUsername(email);
                 }
                 if (password != null && !password.isEmpty()) {
-                    user.setPassword(passwordEncoder.encode(password));
+                    userDatabaseEntity.setPassword(passwordEncoder.encode(password));
                 }
                 // Update role if provided
                 
-                user.setEnabled(true);
+                userDatabaseEntity.setEnabled(true);
                 
                 // Only update photo if a new one is provided
                 if (photo != null && !photo.isEmpty()) {
                     String photoPath = fileUploadService.uploadFile(photo);
-                    barber.setPhoto(photoPath);
+                    barberDatabaseEntity.setPhoto(photoPath);
                 }
                 
-                barberService.save(barber);
-                user.setRole(role);
-                userService.save(user);
+                barberServiceImpl.save(barberDatabaseEntity);
+                userDatabaseEntity.setRole(role);
+                userServiceImpl.save(userDatabaseEntity);
             }
             return "redirect:/admin";
         } catch (IOException e) {
@@ -145,27 +146,27 @@ public class AdminController {
     @PostMapping("/admin/deleteBarber")
     public String deleteBarber(@RequestParam("id") Long id) {
         try {
-            // Get the barber first
-            Barber barber = barberService.findById(id);
-            if (barber != null) {
-                // Delete associated user first
-                User user = userService.findByBarberId(id.longValue());
-                if (user != null) {
-                    userService.deleteById(user.getUsername());
+            // Get the barberDatabaseEntity first
+            BarberDatabaseEntity barberDatabaseEntity = barberServiceImpl.findById(id);
+            if (barberDatabaseEntity != null) {
+                // Delete associated userDatabaseEntity first
+                UserDatabaseEntity userDatabaseEntity = userServiceImpl.findByBarberId(id.longValue());
+                if (userDatabaseEntity != null) {
+                    userServiceImpl.deleteById(userDatabaseEntity.getUsername());
                 }
                 
                 // Delete photo file if exists
-                if (barber.getPhoto() != null) {
+                if (barberDatabaseEntity.getPhoto() != null) {
                     try {
-                        fileUploadService.deleteFile(barber.getPhoto().substring(14));
+                        fileUploadService.deleteFile(barberDatabaseEntity.getPhoto().substring(14));
                     } catch (IOException e) {
                         // Log error but continue with deletion
                         e.printStackTrace();
                     }
                 }
                 
-                // Finally delete the barber
-                barberService.deleteById(id.longValue());
+                // Finally delete the barberDatabaseEntity
+                barberServiceImpl.deleteById(id.longValue());
             }
             return "redirect:/admin";
         } catch (Exception e) {
@@ -176,12 +177,12 @@ public class AdminController {
 
     @GetMapping("/admin/editBarber/{id}")
     public String showEditBarberForm(@PathVariable("id") Long id, Model model) {
-        Barber barber = barberService.findById(id.longValue());
-        if (barber == null) {
+        BarberDatabaseEntity barberDatabaseEntity = barberServiceImpl.findById(id.longValue());
+        if (barberDatabaseEntity == null) {
             return "redirect:/admin";
         }
         
-        model.addAttribute("barber", barber);
+        model.addAttribute("barber", barberDatabaseEntity);
         model.addAttribute("branches", branches);
         return "admin";
     }
@@ -190,31 +191,31 @@ public class AdminController {
     @ResponseBody
     public ResponseEntity<?> getBarber(@PathVariable Long id) {
         try {
-            System.out.println("Fetching barber with ID: " + id);
-            Barber barber = barberService.findById(id.longValue());
-            if (barber == null) {
-                System.out.println("Barber not found with ID: " + id);
+            System.out.println("Fetching barberDatabaseEntity with ID: " + id);
+            BarberDatabaseEntity barberDatabaseEntity = barberServiceImpl.findById(id.longValue());
+            if (barberDatabaseEntity == null) {
+                System.out.println("BarberDatabaseEntity not found with ID: " + id);
                 return ResponseEntity.notFound().build();
             }
-            System.out.println("Found barber: " + barber.getName());
+            System.out.println("Found barberDatabaseEntity: " + barberDatabaseEntity.getName());
             
-            User user = userService.findByBarberId(id.longValue());
-            if (user == null) {
-                System.out.println("User not found for barber ID: " + id);
+            UserDatabaseEntity userDatabaseEntity = userServiceImpl.findByBarberId(id.longValue());
+            if (userDatabaseEntity == null) {
+                System.out.println("UserDatabaseEntity not found for barberDatabaseEntity ID: " + id);
                 return ResponseEntity.notFound().build();
             }
-            System.out.println("Found user: " + user.getUsername());
+            System.out.println("Found userDatabaseEntity: " + userDatabaseEntity.getUsername());
             
-            String role = userService.getUserRole(user.getUsername());
+            String role = userServiceImpl.getUserRole(userDatabaseEntity.getUsername());
             
             var response = new java.util.HashMap<String, Object>();
-            response.put("id", barber.getId());
-            response.put("name", barber.getName());
-            response.put("photo", barber.getPhoto());
-            response.put("branch", barber.getBranch());
-            response.put("information", barber.getInformation());
-            response.put("email", user.getUsername());
-            response.put("password", user.getPassword());
+            response.put("id", barberDatabaseEntity.getId());
+            response.put("name", barberDatabaseEntity.getName());
+            response.put("photo", barberDatabaseEntity.getPhoto());
+            response.put("branch", barberDatabaseEntity.getBranch());
+            response.put("information", barberDatabaseEntity.getInformation());
+            response.put("email", userDatabaseEntity.getUsername());
+            response.put("password", userDatabaseEntity.getPassword());
             response.put("role", role);
             
             System.out.println("Returning response: " + response);
@@ -230,9 +231,9 @@ public class AdminController {
     @ResponseBody
     public ResponseEntity<?> getBarberAppointments(@PathVariable Long id) {
         try {
-            List<Appointment> appointments = appointmentService.findByBarberId(id);
-            System.out.println("Fetching appointments for barber " + id + ": " + appointments.size() + " found");
-            return ResponseEntity.ok(appointments);
+            List<AppointmentDatabaseEntity> appointmentDatabaseEntities = appointmentService.findByBarberId(id);
+            System.out.println("Fetching appointmentDatabaseEntities for barber " + id + ": " + appointmentDatabaseEntities.size() + " found");
+            return ResponseEntity.ok(appointmentDatabaseEntities);
         } catch (Exception e) {
             System.err.println("Error fetching appointments for barber " + id + ": " + e.getMessage());
             return ResponseEntity.badRequest().body("Error fetching appointments");
@@ -242,7 +243,7 @@ public class AdminController {
     @PostMapping("/admin/appointments/{id}/delete")
     public ResponseEntity<?> deleteAppointment(@PathVariable Long id, @RequestParam Timestamp date) {
         try {
-            appointmentService.deleteById(new BarberId(date, id));
+            appointmentService.deleteById(new AppointmentId(date, id));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             System.err.println("Error deleting appointment: " + e.getMessage());

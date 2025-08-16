@@ -3,7 +3,7 @@
 ## 📋 Table of Contents
 - [Getting Started](#getting-started)
 - [Customer Guide](#customer-guide)
-- [Barber Guide](#barber-guide)
+- [Barber Guide](#barberDatabaseEntity-guide)
 - [Administrator Guide](#administrator-guide)
 - [Troubleshooting](#troubleshooting)
 - [FAQ](#faq)
@@ -19,25 +19,25 @@
 ### Accessing the Application
 1. Open your web browser
 2. Navigate to the application URL (e.g., `https://your-barbershop.com`)
-3. The homepage will display available barbers and booking options
+3. The homepage will display available barberDatabaseEntities and booking options
 
 ## 👥 Customer Guide
 
 ### Browsing Barbers
 
 #### Viewing Available Barbers
-1. **Homepage**: The main page shows all available barbers
-2. **Branch Filter**: Use the branch dropdown to filter barbers by location
-3. **Barber Cards**: Each barber is displayed with:
+1. **Homepage**: The main page shows all available barberDatabaseEntities
+2. **Branch Filter**: Use the branch dropdown to filter barberDatabaseEntities by location
+3. **Barber Cards**: Each barberDatabaseEntity is displayed with:
    - Profile photo
    - Name
    - Branch location
    - Specialization information
 
 #### Understanding Barber Information
-- **Photo**: Professional headshot of the barber
+- **Photo**: Professional headshot of the barberDatabaseEntity
 - **Name**: Barber's full name
-- **Branch**: Location where the barber works
+- **Branch**: Location where the barberDatabaseEntity works
 - **Information**: Specializations, experience, or special notes
 
 ### Booking an Appointment
@@ -45,14 +45,14 @@
 #### Step-by-Step Booking Process
 
 1. **Select a Barber**
-   - Browse through available barbers
-   - Click on a barber card to view details
+   - Browse through available barberDatabaseEntities
+   - Click on a barberDatabaseEntity card to view details
    - Click "Book Appointment" button
 
 2. **Fill Booking Form**
    - **Name**: Enter your full name
    - **Phone**: Provide your contact number
-   - **Date & Time**: Select preferred appointment slot
+   - **Date & Time**: Select preferred appointmentDatabaseEntity slot
    - **Message**: Add any special requests or notes (optional)
 
 3. **Submit Booking**
@@ -68,18 +68,18 @@
 
 #### Booking Confirmation
 - **Success Message**: Green notification appears after successful booking
-- **Confirmation**: Your appointment is automatically saved
+- **Confirmation**: Your appointmentDatabaseEntity is automatically saved
 - **No Email**: Currently, no confirmation email is sent
 
 ### Managing Your Booking
 
 #### Viewing Your Appointment
-- Contact the barbershop directly to check your appointment
-- Barbers can view and manage appointments through their dashboard
+- Contact the barbershop directly to check your appointmentDatabaseEntity
+- Barbers can view and manage appointmentDatabaseEntities through their dashboard
 
 #### Canceling or Rescheduling
-- Contact the barbershop directly to modify your appointment
-- Barbers can edit appointments through their dashboard
+- Contact the barbershop directly to modify your appointmentDatabaseEntity
+- Barbers can edit appointmentDatabaseEntities through their dashboard
 
 ## 💇 Barber Guide
 
@@ -97,27 +97,27 @@
 Your dashboard displays:
 - **Personal Information**: Your name and branch
 - **Today's Appointments**: Current day's schedule
-- **Upcoming Appointments**: Future appointments
+- **Upcoming Appointments**: Future appointmentDatabaseEntities
 - **Quick Actions**: Edit and delete options
 
 ### Managing Appointments
 
 #### Viewing Appointments
-- **Daily View**: See appointments for the current day
+- **Daily View**: See appointmentDatabaseEntities for the current day
 - **Chronological Order**: Appointments are sorted by time
-- **Customer Details**: Name, phone, and comments for each appointment
+- **Customer Details**: Name, phone, and comments for each appointmentDatabaseEntity
 
 #### Editing Appointments
-1. **Select Appointment**: Click "Edit" next to an appointment
+1. **Select Appointment**: Click "Edit" next to an appointmentDatabaseEntity
 2. **Modify Details**:
    - **Customer Name**: Update if needed
    - **Phone Number**: Update contact information
-   - **Date & Time**: Reschedule appointment
+   - **Date & Time**: Reschedule appointmentDatabaseEntity
    - **Comments**: Add or modify notes
 3. **Save Changes**: Click "Save" to update
 
 #### Deleting Appointments
-1. **Select Appointment**: Click "Delete" next to an appointment
+1. **Select Appointment**: Click "Delete" next to an appointmentDatabaseEntity
 2. **Confirmation**: Confirm deletion
 3. **Removal**: Appointment is permanently deleted
 
@@ -150,10 +150,10 @@ Your dashboard displays:
 
 #### Admin Dashboard
 The admin panel provides:
-- **User Management**: Manage barber accounts
-- **Appointment Overview**: View all appointments
+- **User Management**: Manage barberDatabaseEntity accounts
+- **Appointment Overview**: View all appointmentDatabaseEntities
 - **System Settings**: Configure branches and settings
-- **File Management**: Handle barber photos
+- **File Management**: Handle barberDatabaseEntity photos
 
 ### Managing Barbers
 
@@ -164,7 +164,7 @@ The admin panel provides:
    - Fill in the required information
 
 2. **Barber Information**
-   - **Name**: Full name of the barber
+   - **Name**: Full name of the barberDatabaseEntity
    - **Photo**: Upload professional headshot
    - **Branch**: Select branch location
    - **Information**: Add specializations or notes
@@ -181,7 +181,7 @@ The admin panel provides:
 #### Editing Existing Barbers
 
 1. **Select Barber**
-   - Click "Edit" next to barber name
+   - Click "Edit" next to barberDatabaseEntity name
    - Or use the edit form in admin panel
 
 2. **Modify Information**
@@ -196,43 +196,43 @@ The admin panel provides:
 #### Deleting Barbers
 
 1. **Select Barber**
-   - Click "Delete" next to barber name
+   - Click "Delete" next to barberDatabaseEntity name
    - Confirm deletion action
 
 2. **Deletion Process**
    - Barber account is permanently removed
-   - Associated appointments are deleted
+   - Associated appointmentDatabaseEntities are deleted
    - Profile photo is removed from storage
 
 ### Managing Appointments
 
 #### Viewing All Appointments
-- **Admin Dashboard**: Shows appointments for all barbers
-- **Filter Options**: Filter by barber or date
+- **Admin Dashboard**: Shows appointmentDatabaseEntities for all barberDatabaseEntities
+- **Filter Options**: Filter by barberDatabaseEntity or date
 - **Detailed View**: Customer information and notes
 
 #### Appointment Management
-- **Edit Appointments**: Modify any appointment details
-- **Delete Appointments**: Remove appointments as needed
-- **Bulk Operations**: Manage multiple appointments
+- **Edit Appointments**: Modify any appointmentDatabaseEntity details
+- **Delete Appointments**: Remove appointmentDatabaseEntities as needed
+- **Bulk Operations**: Manage multiple appointmentDatabaseEntities
 
 ### System Configuration
 
 #### Branch Management
 - **Current Branches**: Shumen, Sofia, Plovdiv
 - **Adding Branches**: Modify application configuration
-- **Branch Assignment**: Assign barbers to specific branches
+- **Branch Assignment**: Assign barberDatabaseEntities to specific branches
 
 #### File Management
-- **Photo Uploads**: Manage barber profile pictures
+- **Photo Uploads**: Manage barberDatabaseEntity profile pictures
 - **Storage**: Files stored in `/uploads/` directory
 - **File Types**: JPG, PNG, GIF supported
 - **Size Limits**: Maximum 10MB per file
 
 #### User Roles
 - **ADMIN**: Full system access
-- **BARBER**: Dashboard and appointment management
-- **Role Assignment**: Set during user creation
+- **BARBER**: Dashboard and appointmentDatabaseEntity management
+- **Role Assignment**: Set during userDatabaseEntity creation
 
 ### Security Management
 
@@ -260,7 +260,7 @@ The admin panel provides:
 - Contact administrator if problem persists
 
 #### Booking Issues
-**Issue**: Cannot book appointment
+**Issue**: Cannot book appointmentDatabaseEntity
 **Solutions**:
 - Check if date/time is available
 - Ensure all required fields are filled
@@ -268,7 +268,7 @@ The admin panel provides:
 - Refresh page and try again
 
 #### File Upload Problems
-**Issue**: Cannot upload barber photo
+**Issue**: Cannot upload barberDatabaseEntity photo
 **Solutions**:
 - Check file size (max 10MB)
 - Verify file format (JPG, PNG, GIF)
@@ -303,63 +303,63 @@ The admin panel provides:
 #### For Customers
 - Use modern browser for best experience
 - Ensure stable internet connection
-- Book appointments during off-peak hours
+- Book appointmentDatabaseEntities during off-peak hours
 - Have customer information ready
 
 #### For Barbers
 - Log out when finished using dashboard
 - Regularly clear browser cache
 - Use desktop browser for management tasks
-- Keep appointment notes concise
+- Keep appointmentDatabaseEntity notes concise
 
 #### For Administrators
 - Use desktop browser for admin tasks
 - Regularly backup important data
 - Monitor system performance
-- Keep user accounts updated
+- Keep userDatabaseEntity accounts updated
 
 ## ❓ FAQ
 
 ### General Questions
 
-**Q: How do I book an appointment?**
-A: Visit the homepage, select a barber, fill in your details, choose date/time, and submit the booking form.
+**Q: How do I book an appointmentDatabaseEntity?**
+A: Visit the homepage, select a barberDatabaseEntity, fill in your details, choose date/time, and submit the booking form.
 
-**Q: Can I cancel my appointment?**
-A: Contact the barbershop directly or ask your barber to cancel through their dashboard.
+**Q: Can I cancel my appointmentDatabaseEntity?**
+A: Contact the barbershop directly or ask your barberDatabaseEntity to cancel through their dashboard.
 
 **Q: What if I'm running late?**
 A: Contact the barbershop as soon as possible to inform them of your delay.
 
-**Q: Can I reschedule my appointment?**
-A: Yes, contact the barbershop or ask your barber to reschedule through their dashboard.
+**Q: Can I reschedule my appointmentDatabaseEntity?**
+A: Yes, contact the barbershop or ask your barberDatabaseEntity to reschedule through their dashboard.
 
 ### Barber Questions
 
-**Q: How do I access my appointments?**
-A: Log in with your credentials and access your dashboard to view all appointments.
+**Q: How do I access my appointmentDatabaseEntities?**
+A: Log in with your credentials and access your dashboard to view all appointmentDatabaseEntities.
 
 **Q: Can I edit customer information?**
-A: Yes, you can edit appointment details including customer name, phone, and comments.
+A: Yes, you can edit appointmentDatabaseEntity details including customer name, phone, and comments.
 
-**Q: How do I add notes to appointments?**
-A: Use the comments field when editing appointments to add notes about customer preferences.
+**Q: How do I add notes to appointmentDatabaseEntities?**
+A: Use the comments field when editing appointmentDatabaseEntities to add notes about customer preferences.
 
-**Q: What if I need to cancel an appointment?**
-A: Use the delete function in your dashboard to remove appointments.
+**Q: What if I need to cancel an appointmentDatabaseEntity?**
+A: Use the delete function in your dashboard to remove appointmentDatabaseEntities.
 
 ### Administrator Questions
 
-**Q: How do I add a new barber?**
-A: Use the "Add New Barber" function in the admin panel to create new barber accounts.
+**Q: How do I add a new barberDatabaseEntity?**
+A: Use the "Add New Barber" function in the admin panel to create new barberDatabaseEntity accounts.
 
-**Q: Can I change barber roles?**
-A: Yes, you can edit barber accounts to change their role from BARBER to ADMIN or vice versa.
+**Q: Can I change barberDatabaseEntity roles?**
+A: Yes, you can edit barberDatabaseEntity accounts to change their role from BARBER to ADMIN or vice versa.
 
 **Q: How do I manage file uploads?**
 A: Barber photos are automatically managed when you upload them through the admin panel.
 
-**Q: What if a barber forgets their password?**
+**Q: What if a barberDatabaseEntity forgets their password?**
 A: You can reset their password by editing their account in the admin panel.
 
 ### Technical Questions
@@ -378,4 +378,4 @@ A: Contact your system administrator for technical support.
 
 ---
 
-This user guide provides comprehensive instructions for using the BarberShop application. For additional support, contact your system administrator or refer to the technical documentation. 
+This userDatabaseEntity guide provides comprehensive instructions for using the BarberShop application. For additional support, contact your system administrator or refer to the technical documentation. 

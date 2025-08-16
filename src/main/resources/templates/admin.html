@@ -15,7 +15,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="css/bootstrap-icons.css" rel="stylesheet">
-        <link href="css/templatemo-barber-shop.css" rel="stylesheet">
+        <link href="css/templatemo-barberDatabaseEntity-shop.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
         <style>
@@ -44,7 +44,7 @@
                 gap: 10px;
             }
 
-            .barber-card {
+            .barberDatabaseEntity-card {
                 background: white;
                 border-radius: var(--border-radius-small);
                 padding: 20px;
@@ -57,40 +57,40 @@
                 cursor: pointer;
             }
 
-            .barber-card:hover {
+            .barberDatabaseEntity-card:hover {
                 transform: translateY(-5px);
                 box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
             }
 
-            .barber-info {
+            .barberDatabaseEntity-info {
                 display: flex;
                 align-items: center;
                 gap: 20px;
             }
 
-            .barber-avatar {
+            .barberDatabaseEntity-avatar {
                 width: 60px;
                 height: 60px;
                 border-radius: 50%;
                 object-fit: cover;
             }
 
-            .barber-details h4 {
+            .barberDatabaseEntity-details h4 {
                 margin: 0;
                 color: var(--dark-color);
             }
 
-            .barber-details p {
+            .barberDatabaseEntity-details p {
                 margin: 5px 0 0;
                 color: var(--p-color);
             }
 
-            .barber-actions {
+            .barberDatabaseEntity-actions {
                 display: flex;
                 gap: 10px;
             }
 
-            .btn-add-barber {
+            .btn-add-barberDatabaseEntity {
                 background-color: var(--primary-color);
                 color: white;
                 border: none;
@@ -102,7 +102,7 @@
                 font-weight: 500;
             }
 
-            .btn-add-barber:hover {
+            .btn-add-barberDatabaseEntity:hover {
                 opacity: 0.9;
                 transform: translateY(-2px);
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -313,10 +313,10 @@
         <nav class="navbar navbar-dashboard">
             <div class="container">
                 <a class="navbar-brand" href="/">
-                    <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop">
+                    <img src="images/templatemo-barberDatabaseEntity-logo.png" class="logo-image img-fluid" alt="Barber Shop">
                 </a>
                 <div class="d-flex align-items-center">
-                    <span class="welcome-text">Welcome, <strong th:text="${barber.name}"></strong></span>
+                    <span class="welcome-text">Welcome, <strong th:text="${barberDatabaseEntity.name}"></strong></span>
                     <a th:href="@{/admin}" class="nav-link active">Admin</a>
                     <form action="#" th:action="@{/logout}" method="post">
                         <input type="submit" class="logout-btn" value="Logout"/>
@@ -335,47 +335,47 @@
                         Manage Barbers
                     </h3>
 
-                    <button class="btn-add-barber" onclick="openAddBarberModal()">
+                    <button class="btn-add-barberDatabaseEntity" onclick="openAddBarberModal()">
                         <i class="bi bi-plus"></i> Add New Barber
                     </button>
 
                     <!-- Barbers List -->
-                    <div class="barbers-list" th:if="${not #lists.isEmpty(barbers)}">
-                        <div class="barber-card" 
-                             th:each="barber : ${barbers}"
-                             th:attr="data-barber-id=${barber.id},data-barber-name=${barber.name}">
-                            <div class="barber-info">
-                                <img th:src="@{${barber.photo}}" alt="Barber" class="barber-avatar">
-                                <div class="barber-details">
-                                    <h4><span th:text="${barber.name}">Barber Name</span>, <span th:text="${barber.branch}">Branch</span></h4>
-                                    <p th:text="${barber.information}">Specialization, <span th:text="${user.role}">Role</span></p>
+                    <div class="barberDatabaseEntities-list" th:if="${not #lists.isEmpty(barberDatabaseEntities)}">
+                        <div class="barberDatabaseEntity-card"
+                             th:each="barberDatabaseEntity : ${barberDatabaseEntities}"
+                             th:attr="data-barberDatabaseEntity-id=${barberDatabaseEntity.id},data-barberDatabaseEntity-name=${barberDatabaseEntity.name}">
+                            <div class="barberDatabaseEntity-info">
+                                <img th:src="@{${barberDatabaseEntity.photo}}" alt="Barber" class="barberDatabaseEntity-avatar">
+                                <div class="barberDatabaseEntity-details">
+                                    <h4><span th:text="${barberDatabaseEntity.name}">Barber Name</span>, <span th:text="${barberDatabaseEntity.branch}">Branch</span></h4>
+                                    <p th:text="${barberDatabaseEntity.information}">Specialization, <span th:text="${userDatabaseEntity.role}">Role</span></p>
                                 </div>
                             </div>
-                            <div class="barber-actions">
-                                <button class="action-btn edit" th:onclick="'editBarber(' + ${barber.id} + ')'">
+                            <div class="barberDatabaseEntity-actions">
+                                <button class="action-btn edit" th:onclick="'editBarber(' + ${barberDatabaseEntity.id} + ')'">
                                     <i class="bi bi-pencil"></i> Edit
                                 </button>
                                 <button class="action-btn delete"
-                                        th:data-barber-id="${barber.id}"
-                                        th:data-barber-name="${barber.name}">
+                                        th:data-barberDatabaseEntity-id="${barberDatabaseEntity.id}"
+                                        th:data-barberDatabaseEntity-name="${barberDatabaseEntity.name}">
                                     <i class="bi bi-trash"></i> Delete
                                 </button>
                             </div>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(barbers)}" class="text-center p-4">
-                        <p>No barbers found. Add your first barber!</p>
+                    <div th:if="${#lists.isEmpty(barberDatabaseEntities)}" class="text-center p-4">
+                        <p>No barberDatabaseEntities found. Add your first barberDatabaseEntity!</p>
                     </div>
                 </div>
 
-                <!-- Barber Schedule -->
+                <!-- BarberDatabaseEntity Schedule -->
                 <div class="dashboard-card" id="appointmentSchedule">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h3>
                             <i class="bi bi-calendar3"></i>
                             <span id="selectedBarberName">Barber</span>'s Schedule
                         </h3>
-                        <button class="btn-add-barber" onclick="backToBarbers()">
+                        <button class="btn-add-barberDatabaseEntity" onclick="backToBarbers()">
                             <i class="bi bi-arrow-left"></i> Back to Barbers
                         </button>
                     </div>
@@ -401,7 +401,7 @@
             </div>
         </section>
 
-        <!-- Add/Edit Barber Modal -->
+        <!-- Add/Edit BarberDatabaseEntity Modal -->
         <div class="modal fade" id="barberModal" tabindex="-1" aria-labelledby="barberModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -468,7 +468,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to delete barber <strong id="deleteBarberName"></strong>?</p>
+                        <p>Are you sure you want to delete barberDatabaseEntity <strong id="deleteBarberName"></strong>?</p>
                         <p class="text-danger">This action cannot be undone.</p>
                     </div>
                     <div class="modal-footer">
@@ -482,7 +482,7 @@
             </div>
         </div>
 
-        <!-- Delete Appointment Modal -->
+        <!-- Delete AppointmentDatabaseEntity Modal -->
         <div class="modal fade" id="deleteAppointmentModal" tabindex="-1" aria-labelledby="deleteAppointmentModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -491,7 +491,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to delete this appointment?</p>
+                        <p>Are you sure you want to delete this appointmentDatabaseEntity?</p>
                         <p class="text-danger">This action cannot be undone.</p>
                     </div>
                     <div class="modal-footer">
@@ -542,8 +542,8 @@
                 // Use event delegation for all click handlers
                 document.addEventListener('click', function(event) {
                     // Handle view schedule clicks
-                    const barberCard = event.target.closest('.barber-card');
-                    if (barberCard && !event.target.closest('.barber-actions')) {
+                    const barberCard = event.target.closest('.barberDatabaseEntity-card');
+                    if (barberCard && !event.target.closest('.barberDatabaseEntity-actions')) {
                         const barberId = barberCard.dataset.barberId;
                         const barberName = barberCard.dataset.barberName;
                         viewBarberSchedule(barberId, barberName);
@@ -551,7 +551,7 @@
                     
                     // Handle delete button clicks
                     if (event.target.closest('.action-btn.delete')) {
-                        event.stopPropagation(); // Prevent triggering the parent barber-info click
+                        event.stopPropagation(); // Prevent triggering the parent barberDatabaseEntity-info click
                         const button = event.target.closest('.action-btn.delete');
                         const barberId = button.dataset.barberId;
                         const barberName = button.dataset.barberName;
@@ -560,7 +560,7 @@
 
                     // Handle edit button clicks
                     if (event.target.closest('.action-btn.edit')) {
-                        event.stopPropagation(); // Prevent triggering the parent barber-info click
+                        event.stopPropagation(); // Prevent triggering the parent barberDatabaseEntity-info click
                         const button = event.target.closest('.action-btn.edit');
                         const barberId = button.dataset.barberId;
                         editBarber(barberId);
@@ -601,13 +601,13 @@
                 })
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Failed to save barber');
+                        throw new Error('Failed to save barberDatabaseEntity');
                     }
                     window.location.reload();
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Failed to save barber. Please try again.');
+                    alert('Failed to save barberDatabaseEntity. Please try again.');
                     submitButton.disabled = false;
                     submitButton.innerHTML = originalText;
                 });
@@ -626,7 +626,7 @@
                 // Show the modal first with disabled fields
                 modalInstance.show();
                 
-                // Fetch barber details and populate form
+                // Fetch barberDatabaseEntity details and populate form
                 fetch(`/admin/getBarber/${barberId}`, {
                     credentials: 'same-origin',
                     headers: {
@@ -639,25 +639,25 @@
                     }
                     return response.json();
                 })
-                .then(barber => {
-                    if (!barber || !barber.id) {
-                        throw new Error('Invalid barber data received');
+                .then(barberDatabaseEntity => {
+                    if (!barberDatabaseEntity || !barberDatabaseEntity.id) {
+                        throw new Error('Invalid barberDatabaseEntity data received');
                     }
-                    $('#barberId').val(barber.id);
-                    $('#barberName').val(barber.name);
-                    $('#barberBranch').val(barber.branch);
-                    $('#barberInformation').val(barber.information);
-                    $('#barberEmail').val(barber.email);
-                    $('#barberRole').val(barber.role);
-                    if (barber.photo) {
-                        $('#photoPreview').attr('src', barber.photo).show();
+                    $('#barberId').val(barberDatabaseEntity.id);
+                    $('#barberName').val(barberDatabaseEntity.name);
+                    $('#barberBranch').val(barberDatabaseEntity.branch);
+                    $('#barberInformation').val(barberDatabaseEntity.information);
+                    $('#barberEmail').val(barberDatabaseEntity.email);
+                    $('#barberRole').val(barberDatabaseEntity.role);
+                    if (barberDatabaseEntity.photo) {
+                        $('#photoPreview').attr('src', barberDatabaseEntity.photo).show();
                     }
                     // Enable form fields after data is loaded
                     $('#barberForm').find('input, select, textarea').prop('disabled', false);
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    // Just enable the form fields and let the user proceed
+                    // Just enable the form fields and let the userDatabaseEntity proceed
                     $('#barberForm').find('input, select, textarea').prop('disabled', false);
                     // Remove any existing alerts
                     $('#barberForm .alert').remove();
@@ -682,10 +682,10 @@
                 const modal = document.getElementById('deleteModal');
                 const modalInstance = bootstrap.Modal.getOrCreateInstance(modal);
                 
-                // Set the barber name in the confirmation message
+                // Set the barberDatabaseEntity name in the confirmation message
                 document.getElementById('deleteBarberName').textContent = barberName;
                 
-                // Set the barber ID in the hidden input
+                // Set the barberDatabaseEntity ID in the hidden input
                 document.getElementById('deleteBarberIdInput').value = barberId;
                 
                 // Show the modal
@@ -693,9 +693,9 @@
             }
 
             async function viewBarberSchedule(barberId, barberName) {
-                console.log('Viewing schedule for barber:', barberId, barberName);
+                console.log('Viewing schedule for barberDatabaseEntity:', barberId, barberName);
                 if (!barberId) {
-                    console.error('No barber ID provided');
+                    console.error('No barberDatabaseEntity ID provided');
                     return;
                 }
 
@@ -714,8 +714,8 @@
                 tableBody.innerHTML = '<tr><td colspan="6" class="text-center"><div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div></td></tr>';
                 
                 try {
-                    // Start fetching appointments before changing display
-                    const appointmentsPromise = fetch(`/admin/appointments/${barberId}`);
+                    // Start fetching appointmentDatabaseEntities before changing display
+                    const appointmentsPromise = fetch(`/admin/appointmentDatabaseEntities/${barberId}`);
                     
                     // While the fetch is happening, update the display
                     selectedBarberName.textContent = barberName;
@@ -728,35 +728,35 @@
                         throw new Error(`HTTP error! status: ${response.status}`);
                     }
 
-                    const appointments = await response.json();
-                    console.log('Fetched appointments:', appointments);
+                    const appointmentDatabaseEntities = await response.json();
+                    console.log('Fetched appointmentDatabaseEntities:', appointmentDatabaseEntities);
                     
-                    if (!appointments || appointments.length === 0) {
-                        tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No appointments found</td></tr>';
+                    if (!appointmentDatabaseEntities || appointmentDatabaseEntities.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="6" class="text-center">No appointmentDatabaseEntities found</td></tr>';
                         return;
                     }
 
-                    // Sort appointments by date (newest first)
-                    appointments.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    // Sort appointmentDatabaseEntities by date (newest first)
+                    appointmentDatabaseEntities.sort((a, b) => new Date(b.date) - new Date(a.date));
                     
                     // Clear the table and prepare for new content
                     const fragment = document.createDocumentFragment();
 
                     // Create table rows
-                    appointments.forEach(appointment => {
+                    appointmentDatabaseEntities.forEach(appointmentDatabaseEntity => {
                         const row = document.createElement('tr');
-                        const appointmentDate = new Date(appointment.date);
+                        const appointmentDate = new Date(appointmentDatabaseEntity.date);
                         const now = new Date();
                         const status = appointmentDate < now ? 'completed' : 'pending';
                         
                         row.innerHTML = `
                             <td>${appointmentDate.toLocaleDateString('en-GB', {day: '2-digit', month: 'long', year: 'numeric'})}</td>
                             <td>${appointmentDate.toLocaleTimeString('en-GB', {hour: '2-digit', minute: '2-digit'})}</td>
-                            <td>${appointment.name}</td>
-                            <td>${appointment.comment}</td>
+                            <td>${appointmentDatabaseEntity.name}</td>
+                            <td>${appointmentDatabaseEntity.comment}</td>
                             <td><span class="badge ${getStatusBadgeClass(status)}">${status}</span></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="showDeleteAppointmentModal(${appointment.barberId}, '${appointment.date}')">
+                                <button type="button" class="btn btn-sm btn-outline-danger" onclick="showDeleteAppointmentModal(${appointmentDatabaseEntity.barberId}, '${appointmentDatabaseEntity.date}')">
                                     <i class="bi bi-trash"></i> Delete
                                 </button>
                             </td>
@@ -769,7 +769,7 @@
                     tableBody.appendChild(fragment);
                 } catch (error) {
                     console.error('Error:', error);
-                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Failed to load appointments</td></tr>';
+                    tableBody.innerHTML = '<tr><td colspan="6" class="text-center text-danger">Failed to load appointmentDatabaseEntities</td></tr>';
                 }
             }
 
@@ -787,8 +787,8 @@
             }
 
             function editAppointment(appointmentId) {
-                // TODO: Implement edit appointment functionality
-                console.log('Edit appointment:', appointmentId);
+                // TODO: Implement edit appointmentDatabaseEntity functionality
+                console.log('Edit appointmentDatabaseEntity:', appointmentId);
             }
 
             let currentAppointmentToDelete = null;
@@ -821,7 +821,7 @@
                     
                     const sqlTimestamp = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}.${millis}`;
                     
-                    const response = await fetch(`/admin/appointments/${currentAppointmentToDelete.barberId}/delete`, {
+                    const response = await fetch(`/admin/appointmentDatabaseEntities/${currentAppointmentToDelete.barberId}/delete`, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/x-www-form-urlencoded'
@@ -830,25 +830,25 @@
                     });
 
                     if (!response.ok) {
-                        throw new Error('Failed to delete appointment');
+                        throw new Error('Failed to delete appointmentDatabaseEntity');
                     }
 
                     // Close the modal
                     const modal = bootstrap.Modal.getInstance(document.getElementById('deleteAppointmentModal'));
                     modal.hide();
                     
-                    // Refresh the appointments list
+                    // Refresh the appointmentDatabaseEntities list
                     viewBarberSchedule(currentAppointmentToDelete.barberId, document.getElementById('selectedBarberName').textContent);
                 } catch (error) {
                     console.error('Error:', error);
-                    alert('Failed to delete appointment. Please try again.');
+                    alert('Failed to delete appointmentDatabaseEntity. Please try again.');
                 }
             }
 
             function backToBarbers() {
                 document.getElementById('appointmentSchedule').style.display = 'none';
                 document.getElementById('barbersManagement').style.display = 'block';
-                // Clear the appointments table
+                // Clear the appointmentDatabaseEntities table
                 document.getElementById('appointmentsTableBody').innerHTML = '';
             }
 

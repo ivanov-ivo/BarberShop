@@ -26,12 +26,12 @@ The application uses form-based authentication with Spring Security. Most endpoi
 #### 1. Homepage
 **GET** `/`
 
-Displays the main homepage with barber listings.
+Displays the main homepage with barberDatabaseEntity listings.
 
 **Response:**
 - **Content-Type**: `text/html`
 - **Template**: `index.html`
-- **Data**: List of barbers, branches
+- **Data**: List of barberDatabaseEntities, branches
 
 **Example Response:**
 ```html
@@ -41,7 +41,7 @@ Displays the main homepage with barber listings.
     <title>Gentlemen's Barber Shop</title>
 </head>
 <body>
-    <!-- Barber listings and booking forms -->
+    <!-- BarberDatabaseEntity listings and booking forms -->
 </body>
 </html>
 ```
@@ -60,9 +60,9 @@ Displays the login form.
 - `logout` (optional): Display logout message
 
 #### 3. Book Appointment
-**POST** `/appointments/booking`
+**POST** `/appointmentDatabaseEntities/booking`
 
-Creates a new appointment booking.
+Creates a new appointmentDatabaseEntity booking.
 
 **Request Body:**
 ```form-data
@@ -70,7 +70,7 @@ name: string (required) - Customer name
 phone: string (required) - Customer phone number
 date: string (required) - Appointment date/time (YYYY-MM-DD HH:mm)
 message: string (optional) - Additional comments
-barber: long (required) - Barber ID
+barberDatabaseEntity: long (required) - Barber ID
 ```
 
 **Response:**
@@ -80,12 +80,12 @@ barber: long (required) - Barber ID
 
 **Example Request:**
 ```bash
-curl -X POST http://localhost:8080/appointments/booking \
+curl -X POST http://localhost:8080/appointmentDatabaseEntities/booking \
   -F "name=John Doe" \
   -F "phone=+1234567890" \
   -F "date=2024-01-15 14:30" \
   -F "message=Haircut and beard trim" \
-  -F "barber=1"
+  -F "barberDatabaseEntity=1"
 ```
 
 ### Protected Endpoints
@@ -93,14 +93,14 @@ curl -X POST http://localhost:8080/appointments/booking \
 #### 4. Barber Dashboard
 **GET** `/dashboard`
 
-Displays the barber's dashboard with appointments.
+Displays the barberDatabaseEntity's dashboard with appointmentDatabaseEntities.
 
 **Authentication:** Required (ROLE_BARBER, ROLE_ADMIN)
 
 **Response:**
 - **Content-Type**: `text/html`
 - **Template**: `dashboard.html`
-- **Data**: User info, barber info, appointments
+- **Data**: User info, barberDatabaseEntity info, appointmentDatabaseEntities
 
 #### 5. Admin Panel
 **GET** `/admin`
@@ -112,12 +112,12 @@ Displays the administrative interface.
 **Response:**
 - **Content-Type**: `text/html`
 - **Template**: `admin.html`
-- **Data**: User info, barber info, all barbers, appointments
+- **Data**: User info, barberDatabaseEntity info, all barberDatabaseEntities, appointmentDatabaseEntities
 
 #### 6. Add Barber
 **POST** `/admin/addBarber`
 
-Creates a new barber account.
+Creates a new barberDatabaseEntity account.
 
 **Authentication:** Required (ROLE_ADMIN)
 
@@ -151,7 +151,7 @@ curl -X POST http://localhost:8080/admin/addBarber \
 #### 7. Edit Barber
 **POST** `/admin/editBarber/{barberId}`
 
-Updates an existing barber's information.
+Updates an existing barberDatabaseEntity's information.
 
 **Authentication:** Required (ROLE_ADMIN)
 
@@ -176,7 +176,7 @@ barberRole: string (optional) - User role
 #### 8. Delete Barber
 **POST** `/admin/deleteBarber`
 
-Removes a barber from the system.
+Removes a barberDatabaseEntity from the system.
 
 **Authentication:** Required (ROLE_ADMIN)
 
@@ -192,7 +192,7 @@ id: long (required) - Barber ID to delete
 #### 9. Get Barber Details
 **GET** `/admin/getBarber/{id}`
 
-Retrieves barber information as JSON.
+Retrieves barberDatabaseEntity information as JSON.
 
 **Authentication:** Required (ROLE_ADMIN)
 
@@ -214,9 +214,9 @@ Retrieves barber information as JSON.
 ```
 
 #### 10. Get Barber Appointments
-**GET** `/admin/appointments/{id}`
+**GET** `/admin/appointmentDatabaseEntities/{id}`
 
-Retrieves appointments for a specific barber.
+Retrieves appointmentDatabaseEntities for a specific barberDatabaseEntity.
 
 **Authentication:** Required (ROLE_ADMIN)
 
@@ -240,9 +240,9 @@ Retrieves appointments for a specific barber.
 ```
 
 #### 11. Delete Appointment (Admin)
-**POST** `/admin/appointments/{id}/delete`
+**POST** `/admin/appointmentDatabaseEntities/{id}/delete`
 
-Deletes a specific appointment.
+Deletes a specific appointmentDatabaseEntity.
 
 **Authentication:** Required (ROLE_ADMIN)
 
@@ -259,18 +259,18 @@ date: timestamp (required) - Appointment date/time
 - **Status**: 200 OK
 
 #### 12. Edit Appointment
-**POST** `/appointments/edit`
+**POST** `/appointmentDatabaseEntities/edit`
 
-Updates an existing appointment.
+Updates an existing appointmentDatabaseEntity.
 
 **Authentication:** Required (ROLE_BARBER, ROLE_ADMIN)
 
 **Request Body:**
 ```form-data
-originalDate: timestamp (required) - Original appointment date
+originalDate: timestamp (required) - Original appointmentDatabaseEntity date
 name: string (required) - Customer name
 phone: string (required) - Customer phone
-newDate: string (required) - New appointment date (YYYY-MM-DD HH:mm)
+newDate: string (required) - New appointmentDatabaseEntity date (YYYY-MM-DD HH:mm)
 comment: string (optional) - Additional comments
 barberId: long (required) - Barber ID
 ```
@@ -280,9 +280,9 @@ barberId: long (required) - Barber ID
 - **Location**: `/dashboard`
 
 #### 13. Delete Appointment
-**POST** `/appointments/delete`
+**POST** `/appointmentDatabaseEntities/delete`
 
-Deletes an appointment.
+Deletes an appointmentDatabaseEntity.
 
 **Authentication:** Required (ROLE_BARBER, ROLE_ADMIN)
 
@@ -377,7 +377,7 @@ For HTML endpoints:
 
 ### Session Attributes
 - **SPRING_SECURITY_CONTEXT**: Authentication context
-- **User Information**: Current user details
+- **User Information**: Current userDatabaseEntity details
 
 ## 📁 File Upload
 
@@ -458,19 +458,19 @@ spring.servlet.multipart.max-request-size=10MB
 # 1. Visit homepage
 curl -X GET http://localhost:8080/
 
-# 2. Book appointment
-curl -X POST http://localhost:8080/appointments/booking \
+# 2. Book appointmentDatabaseEntity
+curl -X POST http://localhost:8080/appointmentDatabaseEntities/booking \
   -F "name=John Doe" \
   -F "phone=+1234567890" \
   -F "date=2024-01-15 14:30" \
   -F "message=Haircut and beard trim" \
-  -F "barber=1"
+  -F "barberDatabaseEntity=1"
 ```
 
 ### Admin Operations Flow
 ```bash
 # 1. Login (browser session)
-# 2. Add new barber
+# 2. Add new barberDatabaseEntity
 curl -X POST http://localhost:8080/admin/addBarber \
   -H "Cookie: JSESSIONID=..." \
   -F "barberName=Mike Johnson" \
@@ -480,7 +480,7 @@ curl -X POST http://localhost:8080/admin/addBarber \
   -F "barberPassword=password123" \
   -F "barberRole=BARBER"
 
-# 3. Get barber details
+# 3. Get barberDatabaseEntity details
 curl -X GET http://localhost:8080/admin/getBarber/1 \
   -H "Cookie: JSESSIONID=..."
 ```

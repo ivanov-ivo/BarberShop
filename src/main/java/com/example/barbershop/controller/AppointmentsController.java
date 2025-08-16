@@ -1,29 +1,30 @@
 package com.example.barbershop.controller;
 
+import com.example.barbershop.entity.AppointmentDatabaseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.sql.Timestamp;
-import com.example.barbershop.entity.Appointment;
-import com.example.barbershop.service.AppointmentService;
-import com.example.barbershop.entity.BarberId;
+
+import com.example.barbershop.service.AppointmentServiceImpl;
+import com.example.barbershop.entity.AppointmentId;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AppointmentsController {
     
-    private final AppointmentService appointmentService;
+    private final AppointmentServiceImpl appointmentService;
 
-    public AppointmentsController(AppointmentService appointmentService) {
+    public AppointmentsController(AppointmentServiceImpl appointmentService) {
         this.appointmentService = appointmentService;
     }
 
     @PostMapping("/appointments/delete")
     public String deleteAppointment(@RequestParam("appointmentDate") Timestamp appointmentDate, @RequestParam("barberId") Long barberId) {
         try {
-            appointmentService.deleteById(new BarberId(appointmentDate, barberId));
+            appointmentService.deleteById(new AppointmentId(appointmentDate, barberId));
         } catch (Exception e) {
             // Log the error
             System.err.println("Error deleting appointment: " + e.getMessage());
@@ -41,27 +42,27 @@ public class AppointmentsController {
             @RequestParam("barberId") Long barberId) {
         
         try {
-            // Get the original appointment
-            Appointment appointment = appointmentService.findByBarberIdAndDate(barberId, originalDate);
+            // Get the original appointmentDatabaseEntity
+            AppointmentDatabaseEntity appointmentDatabaseEntity = appointmentService.findByBarberIdAndDate(barberId, originalDate);
             
-            if (appointment != null) {
-                // Delete the old appointment
-                appointmentService.deleteById(new BarberId(originalDate, barberId));
+            if (appointmentDatabaseEntity != null) {
+                // Delete the old appointmentDatabaseEntity
+                appointmentService.deleteById(new AppointmentId(originalDate, barberId));
                 
-                // Create a new appointment with updated details
-                Appointment newAppointment = new Appointment();
-                newAppointment.setName(name);
-                newAppointment.setPhone(phone);
-                newAppointment.setComment(comment);
-                newAppointment.setBarberId(barberId);
+                // Create a new appointmentDatabaseEntity with updated details
+                AppointmentDatabaseEntity newAppointmentDatabaseEntity = new AppointmentDatabaseEntity();
+                newAppointmentDatabaseEntity.setName(name);
+                newAppointmentDatabaseEntity.setPhone(phone);
+                newAppointmentDatabaseEntity.setComment(comment);
+                newAppointmentDatabaseEntity.setBarberId(barberId);
                 
                 // Parse the date using Flatpickr's format (YYYY-MM-DD HH:mm)
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 LocalDateTime newDateTime = LocalDateTime.parse(newDateStr, formatter);
-                newAppointment.setDate(Timestamp.valueOf(newDateTime));
+                newAppointmentDatabaseEntity.setDate(Timestamp.valueOf(newDateTime));
                 
-                // Save the new appointment
-                appointmentService.save(newAppointment);
+                // Save the new appointmentDatabaseEntity
+                appointmentService.save(newAppointmentDatabaseEntity);
             }
         } catch (Exception e) {
             // Log the error
@@ -79,23 +80,23 @@ public class AppointmentsController {
                           @RequestParam("barber") Long barberId,
                           RedirectAttributes redirectAttributes) {
         try {
-            Appointment appointment = new Appointment();
-            appointment.setName(name);
-            appointment.setPhone(phone);
+            AppointmentDatabaseEntity appointmentDatabaseEntity = new AppointmentDatabaseEntity();
+            appointmentDatabaseEntity.setName(name);
+            appointmentDatabaseEntity.setPhone(phone);
             
             // Parse the date using Flatpickr's format (YYYY-MM-DD HH:mm)
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
             LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
             
-            // Set the appointment date
-            appointment.setDate(Timestamp.valueOf(dateTime));
-            appointment.setComment(message);
-            appointment.setBarberId(barberId);
+            // Set the appointmentDatabaseEntity date
+            appointmentDatabaseEntity.setDate(Timestamp.valueOf(dateTime));
+            appointmentDatabaseEntity.setComment(message);
+            appointmentDatabaseEntity.setBarberId(barberId);
             
-            // Save the appointment
-            appointmentService.save(appointment);
+            // Save the appointmentDatabaseEntity
+            appointmentService.save(appointmentDatabaseEntity);
             
-            redirectAttributes.addFlashAttribute("success", "Appointment booked successfully!");
+            redirectAttributes.addFlashAttribute("success", "AppointmentDatabaseEntity booked successfully!");
             return "redirect:/";
         } catch (Exception e) {
             System.err.println("Error creating appointment: " + e.getMessage());

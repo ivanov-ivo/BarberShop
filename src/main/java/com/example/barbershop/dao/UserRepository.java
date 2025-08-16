@@ -2,19 +2,19 @@ package com.example.barbershop.dao;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import com.example.barbershop.entity.User;
+import com.example.barbershop.entity.UserDatabaseEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<UserDatabaseEntity, String> {
 
     @Query(value = "SELECT * FROM users WHERE username = ?1", nativeQuery = true)
-    User findByUsername(String username);
+    UserDatabaseEntity findByUsername(String username);
 
     @Query(value = "SELECT * FROM users WHERE id = ?1", nativeQuery = true)
-    User findById(Long id);
+    UserDatabaseEntity findById(Long id);
     
     @Query(value = "INSERT INTO users (username, role) VALUES (?1, ?2)", nativeQuery = true)
     @Modifying

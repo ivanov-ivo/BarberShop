@@ -18,9 +18,9 @@ CREATE SCHEMA IF NOT EXISTS `barbershop` DEFAULT CHARACTER SET utf8mb4 COLLATE u
 USE `barbershop` ;
 
 -- -----------------------------------------------------
--- Table `barbershop`.`appointments`
+-- Table `barbershop`.`appointmentDatabaseEntities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `barbershop`.`appointments` (
+CREATE TABLE IF NOT EXISTS `barbershop`.`appointmentDatabaseEntities` (
   `date` DATETIME NOT NULL,
   `name` VARCHAR(50) NOT NULL,
   `phone` CHAR(13) NOT NULL,
@@ -33,9 +33,9 @@ COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
--- Table `barbershop`.`barbers`
+-- Table `barbershop`.`barberDatabaseEntities`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `barbershop`.`barbers` (
+CREATE TABLE IF NOT EXISTS `barbershop`.`barberDatabaseEntities` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(50) NOT NULL,
   `photo` VARCHAR(1500) NOT NULL,
@@ -71,14 +71,14 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 INSERT INTO `users` 
 VALUES 
 ('admin@gmail.com','$2a$12$RBJfkrZTntSXuIXA4uJmcuwgAle5MjN305oWPLR7fUEUa4gNzZL32', 1, 1, 'ADMIN'),
-('barber@gmail.com', '$2a$12$/XOjV1fUA4tFCG9diOqWuupp4YpUNJ44ct5dgcNKXzq2gzU0TmXPS', 1, 2, 'BARBER');
+('barberDatabaseEntity@gmail.com', '$2a$12$/XOjV1fUA4tFCG9diOqWuupp4YpUNJ44ct5dgcNKXzq2gzU0TmXPS', 1, 2, 'BARBER');
 
-INSERT INTO `barbers` 
+INSERT INTO `barberDatabaseEntities`
 VALUES 
-('1', 'Ivo Ivanov','images/barber/Shutterstock_2302169201-1024x512.jpg', 'Shumen', 'Admin of the Gentlemen\'s Barber Shop'),
-('2', 'Peter Johnson','images/barber/Shutterstock_2302169201-1024x512.jpg', 'Shumen', 'Worker');
+('1', 'Ivo Ivanov','images/barberDatabaseEntity/Shutterstock_2302169201-1024x512.jpg', 'Shumen', 'Admin of the Gentlemen\'s BarberDatabaseEntity Shop'),
+('2', 'Peter Johnson','images/barberDatabaseEntity/Shutterstock_2302169201-1024x512.jpg', 'Shumen', 'Worker');
 
-insert into `appointments`
+insert into `appointmentDatabaseEntities`
 values
 ('2025-05-31 11:00:00', 'Nikola Zhekov', '+359897371823', 2, 'Buzz Cut'),
 ('2025-05-31 16:00:00', 'Yavor Vasilev', '+359897371823', 2, 'Low Taper Fade'),

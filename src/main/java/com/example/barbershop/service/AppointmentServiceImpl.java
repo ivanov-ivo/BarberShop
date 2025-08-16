@@ -1,9 +1,9 @@
 package com.example.barbershop.service;
 
 import com.example.barbershop.dao.AppointmentRepository;
-import com.example.barbershop.entity.Appointment;
+import com.example.barbershop.entity.AppointmentDatabaseEntity;
 import org.springframework.stereotype.Service;
-import com.example.barbershop.entity.BarberId;
+import com.example.barbershop.entity.AppointmentId;
 import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 
@@ -12,41 +12,45 @@ import java.util.List;
 
 @Service
 @Transactional
-public class AppointmentService {
+public class AppointmentServiceImpl implements AppointmentServiceInterface {
     
     private final AppointmentRepository appointmentRepository;
     
-    public AppointmentService(AppointmentRepository appointmentRepository) {
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository) {
         this.appointmentRepository = appointmentRepository;
     }
-    
-    public List<Appointment> findAll() {
+
+    @Override
+    public List<AppointmentDatabaseEntity> findAll() {
         return appointmentRepository.findAll();
     }
-    
-    public Appointment findById(BarberId id) {
+
+    @Override
+    public AppointmentDatabaseEntity findById(AppointmentId id) {
         return appointmentRepository.findById(id).orElse(null);
     }
-    
-    public Appointment save(Appointment appointment) {
-        return appointmentRepository.save(appointment);
+
+    @Override
+    public AppointmentDatabaseEntity save(AppointmentDatabaseEntity appointmentDatabaseEntity) {
+        return appointmentRepository.save(appointmentDatabaseEntity);
     }
-    
-    public void deleteById(BarberId id) {
+
+    @Override
+    public void deleteById(AppointmentId id) {
         appointmentRepository.deleteById(id);
     }
 
-    public List<Appointment> findByBarberId(Long barberId) {
+    @Override
+    public List<AppointmentDatabaseEntity> findByBarberId(Long barberId) {
         return appointmentRepository.findByBarberId(barberId);
     }
 
-    public Appointment findByBarberIdAndDate(Long barberId, Timestamp date) {
+    @Override
+    public AppointmentDatabaseEntity findByBarberIdAndDate(Long barberId, Timestamp date) {
         return appointmentRepository.findByBarberIdAndDate(barberId, date);
     }
 
-    /**
-     * Deletes all appointments that are 10 days old or older.
-     */
+    @Override
     @Transactional
     public void deleteAppointmentsOlderThan10Days() {
         LocalDateTime cutoffLocalDateTime = LocalDateTime.now().minusDays(10);

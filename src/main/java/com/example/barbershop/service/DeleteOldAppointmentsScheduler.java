@@ -5,13 +5,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DeleteOldAppointmentsScheduler {
-    private final AppointmentService appointmentService;
+    private final AppointmentServiceImpl appointmentService;
 
-    public DeleteOldAppointmentsScheduler(AppointmentService appointmentService) {
+    public DeleteOldAppointmentsScheduler(AppointmentServiceImpl appointmentService) {
         this.appointmentService = appointmentService;
     }
 
-    // Runs every day at 00:00
     @Scheduled(cron = "0 30 12 * * *")
     public void deleteOldAppointments() {
         appointmentService.deleteAppointmentsOlderThan10Days();

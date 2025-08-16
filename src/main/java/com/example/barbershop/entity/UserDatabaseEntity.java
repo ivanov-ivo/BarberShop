@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class UserDatabaseEntity {
+
     @Id
     @Column(name = "username")
     private String username;

@@ -21,7 +21,7 @@
 
     <link href="css/bootstrap-icons.css" rel="stylesheet">
 
-    <link href="css/templatemo-barber-shop.css" rel="stylesheet">
+    <link href="css/templatemo-barberDatabaseEntity-shop.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     
     <style>
@@ -34,8 +34,8 @@
         .team-info {
             transition: none !important;
         }
-        /* --- Barber Card Enhancements --- */
-        .barber-card {
+        /* --- BarberDatabaseEntity Card Enhancements --- */
+        .barberDatabaseEntity-card {
             border-radius: 20px;
             overflow: hidden;
             box-shadow: 0 4px 24px rgba(0,0,0,0.12);
@@ -43,11 +43,11 @@
             position: relative;
             background: #fff;
         }
-        .barber-card:hover {
+        .barberDatabaseEntity-card:hover {
             transform: translateY(-8px) scale(1.03);
             box-shadow: 0 8px 32px rgba(0,0,0,0.18);
         }
-        .barber-photo-wrap {
+        .barberDatabaseEntity-photo-wrap {
             position: relative;
             width: 100%;
             height: 100px;
@@ -56,7 +56,7 @@
             align-items: center;
             justify-content: center;
         }
-        .barber-photo {
+        .barberDatabaseEntity-photo {
             width: 100px;
             height: 100px;
             object-fit: cover;
@@ -67,13 +67,13 @@
             z-index: 2;
             margin-top: 10px;
         }
-        .barber-gradient {
+        .barberDatabaseEntity-gradient {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(180deg, rgba(0,0,0,0.10) 0%, rgba(0,0,0,0.25) 100%);
             z-index: 1;
         }
-        .barber-team-info {
+        .barberDatabaseEntity-team-info {
             position: relative;
             z-index: 3;
             background: #fff;
@@ -82,14 +82,14 @@
             border-radius: 0 0 20px 20px;
             box-shadow: 0 -2px 12px rgba(0,0,0,0.03);
         }
-        .barber-name {
+        .barberDatabaseEntity-name {
             font-size: 1.7rem;
             font-weight: 700;
             color: #222;
             margin-bottom: 0.25rem;
             letter-spacing: 0.5px;
         }
-        .barber-branch-badge {
+        .barberDatabaseEntity-branch-badge {
             display: inline-block;
             background: #f5f5f5;
             color: #6c757d;
@@ -99,25 +99,25 @@
             margin-left: 8px;
             font-weight: 500;
         }
-        .barber-divider {
+        .barberDatabaseEntity-divider {
             width: 40px;
             height: 3px;
             background: #e0b97a;
             border-radius: 2px;
             margin: 12px 0 16px 0;
         }
-        .barber-specialization {
+        .barberDatabaseEntity-specialization {
             font-size: 1.15rem;
             color: #555;
             opacity: 0.85;
             margin-bottom: 0.5rem;
         }
-        .barber-socials {
+        .barberDatabaseEntity-socials {
             display: flex;
             gap: 12px;
             margin-top: 10px;
         }
-        .barber-socials .social-icon-link {
+        .barberDatabaseEntity-socials .social-icon-link {
             background: #f7f7f7;
             border-radius: 50%;
             width: 38px;
@@ -130,7 +130,7 @@
             border: 1px solid #e0e0e0;
             transition: background 0.2s, color 0.2s, transform 0.2s;
         }
-        .barber-socials .social-icon-link:hover {
+        .barberDatabaseEntity-socials .social-icon-link:hover {
             background: #e0b97a;
             color: #fff;
             transform: scale(1.12) rotate(-6deg);
@@ -162,7 +162,7 @@
             display: inline-block !important;
         }
 
-        .aesthetic-barber-card {
+        .aesthetic-barberDatabaseEntity-card {
             background: linear-gradient(135deg, #fff 80%, #f7f3ed 100%);
             border-radius: 24px;
             box-shadow: 0 8px 32px rgba(224,185,122,0.10), 0 1.5px 8px rgba(0,0,0,0.07);
@@ -170,14 +170,14 @@
             padding-bottom: 20px;
             border: 1.5px solid #f3e7d4;
         }
-        .aesthetic-barber-card:hover {
+        .aesthetic-barberDatabaseEntity-card:hover {
             transform: translateY(-10px) scale(1.04);
             box-shadow: 0 16px 40px rgba(224,185,122,0.18), 0 2px 12px rgba(0,0,0,0.10);
         }
-        .barber-header {
+        .barberDatabaseEntity-header {
             gap: 12px;
         }
-        .barber-photo-wrap {
+        .barberDatabaseEntity-photo-wrap {
             background: linear-gradient(120deg, #e0b97a 0%, #fff 100%);
             height: 160px; /* Increased from 120px */
             display: flex;
@@ -186,7 +186,7 @@
             border-radius: 24px 24px 0 0;
             position: relative;
         }
-        .barber-photo {
+        .barberDatabaseEntity-photo {
             width: 140px; /* Increased from 110px */
             height: 140px; /* Increased from 110px */
             object-fit: cover;
@@ -196,14 +196,14 @@
             margin-top: 20px;
             z-index: 2;
         }
-        .barber-gradient {
+        .barberDatabaseEntity-gradient {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(180deg, rgba(224,185,122,0.10) 0%, rgba(224,185,122,0.18) 100%);
             z-index: 1;
             border-radius: 24px 24px 0 0;
         }
-        .barber-team-info {
+        .barberDatabaseEntity-team-info {
             background: #fff;
             border-radius: 0 0 24px 24px;
             padding: 32px 24px 20px;
@@ -212,14 +212,14 @@
             position: relative;
             z-index: 3;
         }
-        .barber-name {
+        .barberDatabaseEntity-name {
             font-size: 1.5rem;
             font-weight: 700;
             color: #222;
             margin-bottom: 0;
             letter-spacing: 0.5px;
         }
-        .barber-branch-badge {
+        .barberDatabaseEntity-branch-badge {
             background: #e0b97a;
             color: #fff;
             font-size: 0.95rem;
@@ -229,24 +229,24 @@
             font-weight: 600;
             box-shadow: 0 1px 4px rgba(224,185,122,0.10);
         }
-        .barber-divider {
+        .barberDatabaseEntity-divider {
             width: 40px;
             height: 3px;
             background: #e0b97a;
             border-radius: 2px;
             margin: 14px 0 18px 0;
         }
-        .barber-specialization {
+        .barberDatabaseEntity-specialization {
             font-size: 1.1rem;
             color: #555;
             opacity: 0.92;
             font-weight: 500;
         }
-        .barber-socials {
+        .barberDatabaseEntity-socials {
             display: flex;
             gap: 16px;
         }
-        .barber-socials .social-icon-link {
+        .barberDatabaseEntity-socials .social-icon-link {
             background: #f7f7f7;
             border-radius: 50%;
             width: 40px;
@@ -259,7 +259,7 @@
             border: 1.5px solid #e0b97a;
             transition: background 0.2s, color 0.2s, transform 0.2s;
         }
-        .barber-socials .social-icon-link:hover {
+        .barberDatabaseEntity-socials .social-icon-link:hover {
             background: #e0b97a;
             color: #fff;
             transform: scale(1.13) rotate(-8deg);
@@ -279,9 +279,9 @@
     </style>
     <!--
 
-TemplateMo 585 Barber Shop
+TemplateMo 585 BarberDatabaseEntity Shop
 
-https://templatemo.com/tm-585-barber-shop
+https://templatemo.com/tm-585-barberDatabaseEntity-shop
 
 -->
 </head>
@@ -302,7 +302,7 @@ https://templatemo.com/tm-585-barber-shop
                 <div
                     class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
                     <a class="navbar-brand" href="index.html">
-                        <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" align="">
+                        <img src="images/templatemo-barberDatabaseEntity-logo.png" class="logo-image img-fluid" align="">
                     </a>
 
                     <ul class="nav flex-column">
@@ -388,23 +388,23 @@ https://templatemo.com/tm-585-barber-shop
                         </div>
 
                         <div class="row">
-                            <div class="col-lg-6 col-12 mb-5" th:each="barber : ${barbers}">
-                                <div class="barber-card aesthetic-barber-card">
-                                    <div class="barber-photo-wrap">
-                                        <img th:src="@{${barber.photo}}" class="barber-photo" alt="Barber photo">
-                                        <div class="barber-gradient"></div>
+                            <div class="col-lg-6 col-12 mb-5" th:each="barberDatabaseEntity : ${barberDatabaseEntities}">
+                                <div class="barberDatabaseEntity-card aesthetic-barberDatabaseEntity-card">
+                                    <div class="barberDatabaseEntity-photo-wrap">
+                                        <img th:src="@{${barberDatabaseEntity.photo}}" class="barberDatabaseEntity-photo" alt="Barber photo">
+                                        <div class="barberDatabaseEntity-gradient"></div>
                                     </div>
-                                    <div class="barber-team-info">
-                                        <div class="barber-header d-flex align-items-center mb-2">
-                                            <span class="barber-name" th:text="${barber.name}">Barber Name</span>
-                                            <span class="barber-branch-badge" th:text="${barber.branch}">Branch</span>
+                                    <div class="barberDatabaseEntity-team-info">
+                                        <div class="barberDatabaseEntity-header d-flex align-items-center mb-2">
+                                            <span class="barberDatabaseEntity-name" th:text="${barberDatabaseEntity.name}">Barber Name</span>
+                                            <span class="barberDatabaseEntity-branch-badge" th:text="${barberDatabaseEntity.branch}">Branch</span>
                                         </div>
-                                        <div class="barber-divider"></div>
-                                        <div class="barber-specialization d-flex align-items-center mb-2">
+                                        <div class="barberDatabaseEntity-divider"></div>
+                                        <div class="barberDatabaseEntity-specialization d-flex align-items-center mb-2">
                                             <i class="bi-scissors me-2" style="color:#e0b97a;"></i>
-                                            <span th:text="${barber.information ?: 'Hair Specialist'}">Specialization</span>
+                                            <span th:text="${barberDatabaseEntity.information ?: 'Hair Specialist'}">Specialization</span>
                                         </div>
-                                        <div class="barber-socials mt-3">
+                                        <div class="barberDatabaseEntity-socials mt-3">
                                             <a href="#" class="social-icon-link bi-facebook" title="Facebook"></a>
                                             <a href="#" class="social-icon-link bi-instagram" title="Instagram"></a>
                                             <a href="#" class="social-icon-link bi-whatsapp" title="WhatsApp"></a>
@@ -494,7 +494,7 @@ https://templatemo.com/tm-585-barber-shop
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-10 col-12 mx-auto">
-                                <form action="#" th:action="@{/appointments/booking}" method="post"
+                                <form action="#" th:action="@{/appointmentDatabaseEntities/booking}" method="post"
                                     class="custom-form booking-form" id="booking-form" role="form">
                                     <div class="text-center mb-5">
                                         <h2 class="mb-1">Book a seat</h2>
@@ -531,12 +531,12 @@ https://templatemo.com/tm-585-barber-shop
                                             </div>
 
                                             <div class="col-lg-6 col-12">
-                                                <select class="form-select form-control" name="barber" id="barber"
+                                                <select class="form-select form-control" name="barberDatabaseEntity" id="barberDatabaseEntity"
                                                     aria-label="Default select example" required>
                                                     <option value="">Select Barber</option>
-                                                    <option th:each="barber : ${barbers}" 
-                                                            th:value="${barber.id}" 
-                                                            th:text="${barber.name + ', ' + barber.branch}">
+                                                    <option th:each="barberDatabaseEntity : ${barberDatabaseEntities}"
+                                                            th:value="${barberDatabaseEntity.id}"
+                                                            th:text="${barberDatabaseEntity.name + ', ' + barberDatabaseEntity.branch}">
                                                     </option>
                                                 </select>
                                             </div>
@@ -654,7 +654,7 @@ https://templatemo.com/tm-585-barber-shop
 
                                     <p class="text-white d-flex">
                                         <a href="mailto:info@yourgmail.com" class="site-footer-link">
-                                            hello@barber.beauty
+                                            hello@barberDatabaseEntity.beauty
                                         </a>
                                     </p>
 

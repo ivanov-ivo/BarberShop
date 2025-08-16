@@ -40,7 +40,7 @@ cd BarberShop
 -- Create database
 CREATE DATABASE barbershop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Create user
+-- Create userDatabaseEntity
 CREATE USER 'barbershop_dev'@'localhost' IDENTIFIED BY 'dev_password';
 
 -- Grant privileges
@@ -104,7 +104,7 @@ sudo apt install nginx -y
 -- Create production database
 CREATE DATABASE barbershop CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
--- Create production user
+-- Create production userDatabaseEntity
 CREATE USER 'barbershop_prod'@'localhost' IDENTIFIED BY 'strong_production_password';
 
 -- Grant privileges
@@ -168,12 +168,12 @@ Environment="SPRING_PROFILES_ACTIVE=prod"
 Environment="JAVA_OPTS=-Djava.security.egd=file:/dev/./urandom"
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=multi-userDatabaseEntity.target
 ```
 
 #### 6. Setup Application Directory
 ```bash
-# Create application user
+# Create application userDatabaseEntity
 sudo useradd -r -s /bin/false barbershop
 
 # Create application directory
@@ -272,7 +272,7 @@ FROM openjdk:17-jre-slim
 # Set working directory
 WORKDIR /app
 
-# Create application user
+# Create application userDatabaseEntity
 RUN groupadd -r barbershop && useradd -r -g barbershop barbershop
 
 # Copy application JAR
@@ -281,7 +281,7 @@ COPY target/BarberShop-0.0.1-SNAPSHOT.jar app.jar
 # Create uploads directory
 RUN mkdir -p /app/uploads && chown -R barbershop:barbershop /app
 
-# Switch to application user
+# Switch to application userDatabaseEntity
 USER barbershop
 
 # Expose port
@@ -434,8 +434,8 @@ gcloud sql instances create barbershop-db \
 # Create database
 gcloud sql databases create barbershop --instance=barbershop-db
 
-# Create user
-gcloud sql users create barbershop-user \
+# Create userDatabaseEntity
+gcloud sql users create barbershop-userDatabaseEntity \
   --instance=barbershop-db \
   --password=strong_password
 ```
