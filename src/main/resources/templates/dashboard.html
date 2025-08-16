@@ -15,7 +15,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/bootstrap-icons.css" rel="stylesheet">
-        <link href="css/templatemo-barberDatabaseEntity-shop.css" rel="stylesheet">
+        <link href="css/templatemo-barber-shop.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
         <style>
@@ -74,14 +74,14 @@
                 font-size: 1.2em;
             }
 
-            .appointmentDatabaseEntity-tabs {
+            .appointment-tabs {
                 border-bottom: 2px solid var(--primary-color);
                 margin-bottom: 20px;
                 display: flex;
                 gap: 20px;
             }
 
-            .appointmentDatabaseEntity-tab {
+            .appointment-tab {
                 padding: 10px 20px;
                 cursor: pointer;
                 border: none;
@@ -92,11 +92,11 @@
                 transition: all 0.3s ease;
             }
 
-            .appointmentDatabaseEntity-tab.active {
+            .appointment-tab.active {
                 color: var(--primary-color);
             }
 
-            .appointmentDatabaseEntity-tab.active::after {
+            .appointment-tab.active::after {
                 content: '';
                 position: absolute;
                 bottom: -2px;
@@ -106,15 +106,15 @@
                 background-color: var(--primary-color);
             }
 
-            .appointmentDatabaseEntity-content {
+            .appointment-content {
                 display: none;
             }
 
-            .appointmentDatabaseEntity-content.active {
+            .appointment-content.active {
                 display: block;
             }
 
-            .upcoming-appointmentDatabaseEntity {
+            .upcoming-appointment {
                 border-left: 4px solid var(--primary-color);
                 padding: 20px;
                 margin-bottom: 15px;
@@ -123,12 +123,12 @@
                 transition: all 0.3s ease;
             }
 
-            .upcoming-appointmentDatabaseEntity:hover {
+            .upcoming-appointment:hover {
                 transform: translateX(5px);
                 background: rgba(255, 255, 255, 0.8);
             }
 
-            .appointmentDatabaseEntity-status {
+            .appointment-status {
                 display: inline-block;
                 padding: 4px 8px;
                 border-radius: var(--border-radius-small);
@@ -152,7 +152,7 @@
                 color: #f57c00;
             }
 
-            .appointmentDatabaseEntity-actions {
+            .appointment-actions {
                 margin-top: 10px;
                 display: flex;
                 gap: 10px;
@@ -261,17 +261,17 @@
                 color: var(--dark-color);
             }
 
-            .upcoming-appointmentDatabaseEntity h5 {
+            .upcoming-appointment h5 {
                 color: var(--primary-color);
                 margin-bottom: 5px;
             }
 
-            .upcoming-appointmentDatabaseEntity p {
+            .upcoming-appointment p {
                 color: var(--p-color);
                 margin-bottom: 5px;
             }
 
-            .upcoming-appointmentDatabaseEntity small {
+            .upcoming-appointment small {
                 color: var(--dark-color);
                 opacity: 0.75;
             }
@@ -450,10 +450,10 @@
         <nav class="navbar navbar-dashboard">
             <div class="container">
                 <a class="navbar-brand" href="/">
-                    <img src="images/templatemo-barberDatabaseEntity-logo.png" class="logo-image img-fluid" alt="Barber Shop">
+                    <img src="images/templatemo-barber-logo.png" class="logo-image img-fluid" alt="Barber Shop">
                 </a>
                 <div class="d-flex align-items-center">
-                    <span class="welcome-text">Welcome, <strong th:text="${barberDatabaseEntity.name}"></strong></span>
+                    <span class="welcome-text">Welcome, <strong th:text="${barber.name}"></strong></span>
                     <form action="#" th:action="@{/logout}" method="post">
                         <input type="submit" class="logout-btn" value="Logout"/>
                     </form>
@@ -469,25 +469,25 @@
                         <div class="dashboard-card">
                             <h3><i class="bi bi-calendar2-check"></i> Appointments Manager</h3>
                             
-                            <div class="appointmentDatabaseEntity-tabs">
-                                <button class="appointmentDatabaseEntity-tab active" onclick="showAppointments('today')">Today</button>
-                                <button class="appointmentDatabaseEntity-tab" onclick="showAppointments('upcoming')">Upcoming</button>
-                                <button class="appointmentDatabaseEntity-tab" onclick="showAppointments('past')">Past</button>
+                            <div class="appointment-tabs">
+                                <button class="appointment-tab active" onclick="showAppointments('today')">Today</button>
+                                <button class="appointment-tab" onclick="showAppointments('upcoming')">Upcoming</button>
+                                <button class="appointment-tab" onclick="showAppointments('past')">Past</button>
                             </div>
 
                             <!-- Today's Appointments -->
-                            <div id="today-appointmentDatabaseEntities" class="appointmentDatabaseEntity-content active">
-                                <div class="upcoming-appointmentDatabaseEntity" th:each="appointmentDatabaseEntity : ${todayAppointmentDatabaseEntities}">
-                                    <span class="appointmentDatabaseEntity-status status-today">Today</span>
-                                    <h5 th:text="${appointmentDatabaseEntity.name}"></h5>
-                                    <p th:text="${appointmentDatabaseEntity.comment}"></p>
-                                    <small><i class="bi bi-clock"></i> <span th:text="${#temporals.format(appointmentDatabaseEntity.date.toLocalDateTime(), 'HH:mm')}"></span></small>
-                                    <div class="appointmentDatabaseEntity-actions">
-                                        <button type="button" class="action-btn edit" th:attr="onclick=|showEditModal('${appointmentDatabaseEntity.date}', '${appointmentDatabaseEntity.name}', '${appointmentDatabaseEntity.phone}', '${appointmentDatabaseEntity.comment}', ${appointmentDatabaseEntity.barberId})|">
+                            <div id="today-appointment" class="appointment-content active">
+                                <div class="upcoming-appointment" th:each="appointment : ${todayAppointments}">
+                                    <span class="appointment-status status-today">Today</span>
+                                    <h5 th:text="${appointment.name}"></h5>
+                                    <p th:text="${appointment.comment}"></p>
+                                    <small><i class="bi bi-clock"></i> <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'HH:mm')}"></span></small>
+                                    <div class="appointment-actions">
+                                        <button type="button" class="action-btn edit" th:attr="onclick=|showEditModal('${appointment.date}', '${appointment.name}', '${appointment.phone}', '${appointment.comment}', ${appointment.barberId})|">
                                             <i class="bi bi-pencil"></i>
                                             <span>Edit</span>
                                         </button>
-                                        <button type="button" class="action-btn cancel" th:attr="onclick=|showDeleteModal('${appointmentDatabaseEntity.date}', '${appointmentDatabaseEntity.barberId}')|">
+                                        <button type="button" class="action-btn cancel" th:attr="onclick=|showDeleteModal('${appointment.date}', '${appointment.barberId}')|">
                                             <i class="bi bi-x-circle"></i>
                                             <span>Cancel</span>
                                         </button>
@@ -496,18 +496,18 @@
                             </div>
 
                             <!-- Upcoming Appointments -->
-                            <div id="upcoming-appointmentDatabaseEntities" class="appointmentDatabaseEntity-content">
-                                <div class="upcoming-appointmentDatabaseEntity" th:each="appointmentDatabaseEntity : ${upcomingAppointmentDatabaseEntities}">
-                                    <span class="appointmentDatabaseEntity-status status-upcoming" th:text="${#temporals.format(appointmentDatabaseEntity.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>
-                                    <h5 th:text="${appointmentDatabaseEntity.name}"></h5>
-                                    <p th:text="${appointmentDatabaseEntity.comment}"></p>
-                                    <small><i class="bi bi-calendar2"></i> <span th:text="${#temporals.format(appointmentDatabaseEntity.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>, <span th:text="${#temporals.format(appointmentDatabaseEntity.date.toLocalDateTime(), 'HH:mm')}"></span></small>
-                                    <div class="appointmentDatabaseEntity-actions">
-                                        <button type="button" class="action-btn edit" th:attr="onclick=|showEditModal('${appointmentDatabaseEntity.date}', '${appointmentDatabaseEntity.name}', '${appointmentDatabaseEntity.phone}', '${appointmentDatabaseEntity.comment}', ${appointmentDatabaseEntity.barberId})|">
+                            <div id="upcoming-appointment" class="appointment-content">
+                                <div class="upcoming-appointment" th:each="appointment : ${upcomingAppointments}">
+                                    <span class="appointment-status status-upcoming" th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>
+                                    <h5 th:text="${appointment.name}"></h5>
+                                    <p th:text="${appointment.comment}"></p>
+                                    <small><i class="bi bi-calendar2"></i> <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>, <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'HH:mm')}"></span></small>
+                                    <div class="appointment-actions">
+                                        <button type="button" class="action-btn edit" th:attr="onclick=|showEditModal('${appointment.date}', '${appointment.name}', '${appointment.phone}', '${appointment.comment}', ${appointment.barberId})|">
                                             <i class="bi bi-pencil"></i>
                                             <span>Edit</span>
                                         </button>
-                                        <button type="button" class="action-btn cancel" th:attr="onclick=|showDeleteModal('${appointmentDatabaseEntity.date}', '${appointmentDatabaseEntity.barberId}', '${appointmentDatabaseEntity.name}')|">
+                                        <button type="button" class="action-btn cancel" th:attr="onclick=|showDeleteModal('${appointment.date}', '${appointment.barberId}', '${appointment.name}')|">
                                             <i class="bi bi-x-circle"></i>
                                             <span>Cancel</span>
                                         </button>
@@ -516,12 +516,12 @@
                             </div>
 
                             <!-- Past Appointments -->
-                            <div id="past-appointmentDatabaseEntities" class="appointmentDatabaseEntity-content">
-                                <div class="upcoming-appointmentDatabaseEntity" th:each="appointmentDatabaseEntity : ${pastAppointmentDatabaseEntities}">
-                                    <span class="appointmentDatabaseEntity-status status-completed">Completed</span>
-                                    <h5 th:text="${appointmentDatabaseEntity.name}"></h5>
-                                    <p th:text="${appointmentDatabaseEntity.comment}"></p>
-                                    <small><i class="bi bi-calendar2-check"></i> <span th:text="${#temporals.format(appointmentDatabaseEntity.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>, <span th:text="${#temporals.format(appointmentDatabaseEntity.date.toLocalDateTime(), 'HH:mm')}"></span></small>
+                            <div id="past-appointment" class="appointment-content">
+                                <div class="upcoming-appointment" th:each="appointment : ${pastAppointments}">
+                                    <span class="appointment-status status-completed">Completed</span>
+                                    <h5 th:text="${appointment.name}"></h5>
+                                    <p th:text="${appointment.comment}"></p>
+                                    <small><i class="bi bi-calendar2-check"></i> <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'dd MMMM yyyy')}"></span>, <span th:text="${#temporals.format(appointment.date.toLocalDateTime(), 'HH:mm')}"></span></small>
                                 </div>
                             </div>
                         </div>
@@ -539,11 +539,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        Are you sure you want to cancel the appointmentDatabaseEntity for <span id="appointmentName"></span>?
+                        Are you sure you want to cancel the appointment for <span id="appointmentName"></span>?
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <form th:action="@{/appointmentDatabaseEntities/delete}" method="post" style="display: inline;" th:object="${appointmentDatabaseEntity}">
+                        <form th:action="@{/appointments/delete}" method="post" style="display: inline;" th:object="${appointment}">
                             <input type="hidden" name="appointmentDate" id="appointmentDate">
                             <input type="hidden" name="barberId" id="barberId">
                             <button type="submit" class="btn btn-danger">Cancel Appointment</button>
@@ -561,7 +561,7 @@
                         <h5 class="modal-title" id="editModalLabel">Edit Appointment</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form th:action="@{/appointmentDatabaseEntities/edit}" method="post">
+                    <form th:action="@{/appointments/edit}" method="post">
                         <div class="modal-body">
                             <input type="hidden" name="originalDate" id="editAppointmentDate">
                             <input type="hidden" name="barberId" id="editBarberId">
@@ -633,18 +633,18 @@
                 localStorage.setItem('activeSection', section);
                 
                 // Hide all appointmentDatabaseEntity contents
-                document.querySelectorAll('.appointmentDatabaseEntity-content').forEach(content => {
+                document.querySelectorAll('.appointment-content').forEach(content => {
                     content.classList.remove('active');
                 });
                 
                 // Show selected section
-                document.getElementById(section + '-appointmentDatabaseEntities').classList.add('active');
+                document.getElementById(section + '-appointment').classList.add('active');
                 
                 // Update tab styling
-                document.querySelectorAll('.appointmentDatabaseEntity-tab').forEach(tab => {
+                document.querySelectorAll('.appointment-tab').forEach(tab => {
                     tab.classList.remove('active');
                 });
-                document.querySelector(`.appointmentDatabaseEntity-tab[onclick*="${section}"]`).classList.add('active');
+                document.querySelector(`.appointment-tab[onclick*="${section}"]`).classList.add('active');
             }
 
             function showDeleteModal(date, barberId, name) {

@@ -31,7 +31,7 @@ public class AdminController {
 
     private UserServiceImpl userServiceImpl;
     private BarberServiceImpl barberServiceImpl;
-    private AppointmentServiceImpl appointmentService;
+    private AppointmentServiceImpl appointmentServiceImpl;
     private FileUploadService fileUploadService;
     private PasswordEncoder passwordEncoder;
 
@@ -41,7 +41,7 @@ public class AdminController {
     public AdminController(UserServiceImpl userServiceImpl, BarberServiceImpl barberServiceImpl, AppointmentServiceImpl appointmentService, FileUploadService fileUploadService, PasswordEncoder passwordEncoder) {
         this.userServiceImpl = userServiceImpl;
         this.barberServiceImpl = barberServiceImpl;
-        this.appointmentService = appointmentService;
+        this.appointmentServiceImpl = appointmentService;
         this.fileUploadService = fileUploadService;
         this.passwordEncoder = passwordEncoder;
     }
@@ -51,7 +51,7 @@ public class AdminController {
         UserDatabaseEntity userDatabaseEntity = userServiceImpl.findById(authentication.getName());
         BarberDatabaseEntity barberDatabaseEntity = barberServiceImpl.findById(userDatabaseEntity.getBarberId());
         List<BarberDatabaseEntity> barberDatabaseEntities = barberServiceImpl.findAll();
-        List<AppointmentDatabaseEntity> appointmentDatabaseEntities = appointmentService.findByBarberId(barberDatabaseEntity.getId());
+        List<AppointmentDatabaseEntity> appointmentDatabaseEntities = appointmentServiceImpl.findByBarberId(barberDatabaseEntity.getId());
         Collections.reverse(appointmentDatabaseEntities);
         
         model.addAttribute("user", userDatabaseEntity);
@@ -231,7 +231,7 @@ public class AdminController {
     @ResponseBody
     public ResponseEntity<?> getBarberAppointments(@PathVariable Long id) {
         try {
-            List<AppointmentDatabaseEntity> appointmentDatabaseEntities = appointmentService.findByBarberId(id);
+            List<AppointmentDatabaseEntity> appointmentDatabaseEntities = appointmentServiceImpl.findByBarberId(id);
             System.out.println("Fetching appointmentDatabaseEntities for barber " + id + ": " + appointmentDatabaseEntities.size() + " found");
             return ResponseEntity.ok(appointmentDatabaseEntities);
         } catch (Exception e) {
@@ -243,7 +243,7 @@ public class AdminController {
     @PostMapping("/admin/appointments/{id}/delete")
     public ResponseEntity<?> deleteAppointment(@PathVariable Long id, @RequestParam Timestamp date) {
         try {
-            appointmentService.deleteById(new AppointmentId(date, id));
+            appointmentServiceImpl.deleteById(new AppointmentId(date, id));
             return ResponseEntity.ok().build();
         } catch (Exception e) {
             System.err.println("Error deleting appointment: " + e.getMessage());
