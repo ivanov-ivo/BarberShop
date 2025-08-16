@@ -13,7 +13,7 @@ import lombok.Setter;
 @EqualsAndHashCode
 @Getter
 @Setter
-public class BarberId implements Serializable {
+public class AppointmentId implements Serializable {
     private Timestamp date;
     private Long barberId;
 } 
