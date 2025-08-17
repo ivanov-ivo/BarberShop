@@ -96,7 +96,7 @@ public class AppointmentsController {
             // Save the appointmentDatabaseEntity
             appointmentService.save(appointmentDatabaseEntity);
             
-            redirectAttributes.addFlashAttribute("success", "AppointmentDatabaseEntity booked successfully!");
+            redirectAttributes.addFlashAttribute("success", "Appointment booked successfully!");
             return "redirect:/";
         } catch (Exception e) {
             System.err.println("Error creating appointment: " + e.getMessage());

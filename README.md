@@ -15,33 +15,33 @@
 
 ## 🎯 Overview
 
-BarberShop is a comprehensive web application for managing barbershop appointmentDatabaseEntities. It provides a modern, userDatabaseEntity-friendly interface for customers to book appointmentDatabaseEntities with barberDatabaseEntities, while offering administrative tools for managing barberDatabaseEntities, appointmentDatabaseEntities, and system operations.
+BarberShop is a comprehensive web application for managing barbershop appointments. It provides a modern, user-friendly interface for customers to book appointments with barbers, while offering administrative tools for managing barbers, appointments, and system operations.
 
-The application supports multiple branches (Shumen, Sofia, Plovdiv) and includes role-based access control with different userDatabaseEntity types (Admin, Barber).
+The application supports multiple branches (Shumen, Sofia, Plovdiv) and includes role-based access control with different user types (Admin, Barber).
 
 ## ✨ Features
 
 ### Customer Features
-- **Appointment Booking**: Easy-to-use appointmentDatabaseEntity booking system with date/time picker
-- **Barber Selection**: Browse and select from available barberDatabaseEntities at different branches
-- **Real-time Availability**: View available time slots for each barberDatabaseEntity
+- **Appointment Booking**: Easy-to-use appointment booking system with date/time picker
+- **Barber Selection**: Browse and select from available barbers at different branches
+- **Real-time Availability**: View available time slots for each barber
 - **Responsive Design**: Mobile-friendly interface for booking on any device
 
 ### Barber Features
-- **Dashboard**: View and manage personal appointmentDatabaseEntities
-- **Appointment Management**: Edit, delete, and reschedule appointmentDatabaseEntities
+- **Dashboard**: View and manage personal appointments
+- **Appointment Management**: Edit, delete, and reschedule appointments
 - **Profile Management**: Update personal information and photo
 
 ### Admin Features
-- **Barber Management**: Add, edit, and delete barberDatabaseEntities
-- **User Management**: Create and manage userDatabaseEntity accounts
-- **Appointment Oversight**: View all appointmentDatabaseEntities across the system
-- **File Upload**: Manage barberDatabaseEntity photos and profile images
+- **Barber Management**: Add, edit, and delete barbers
+- **User Management**: Create and manage user accounts
+- **Appointment Oversight**: View all appointments across the system
+- **File Upload**: Manage barber photos and profile images
 - **Branch Management**: Configure multiple locations
 
 ### System Features
 - **Security**: Role-based authentication and authorization
-- **Scheduling**: Automated cleanup of old appointmentDatabaseEntities
+- **Scheduling**: Automated cleanup of old appointments
 - **File Management**: Secure file upload and storage
 - **Database**: MySQL-based data persistence
 
@@ -107,7 +107,7 @@ cd BarberShop
 
 ### Step 2: Database Setup
 1. Create a MySQL database named `barbershop`
-2. Create a userDatabaseEntity with appropriate permissions:
+2. Create a user with appropriate permissions:
 ```sql
 CREATE DATABASE barbershop;
 CREATE USER 'barbershop'@'localhost' IDENTIFIED BY 'barbershop';
@@ -144,11 +144,11 @@ The application uses the following main tables:
 - `username` (Primary Key): User login credentials
 - `password`: Encrypted password
 - `enabled`: Account status
-- `id`: Associated barberDatabaseEntity ID
+- `id`: Associated barber ID
 - `role`: User role (ADMIN, BARBER)
 
 #### Barbers Table
-- `id` (Primary Key): Auto-generated barberDatabaseEntity ID
+- `id` (Primary Key): Auto-generated barber ID
 - `name`: Barber's full name
 - `photo`: Profile photo path
 - `branch`: Branch location
@@ -165,38 +165,38 @@ The application uses the following main tables:
 
 ### For Customers
 1. Visit the homepage at `http://localhost:8080`
-2. Browse available barberDatabaseEntities by branch
-3. Select a barberDatabaseEntity and click "Book Appointment"
+2. Browse available barbers by branch
+3. Select a barber and click "Book Appointment"
 4. Fill in your details and select preferred date/time
 5. Submit the booking
 
 ### For Barbers
 1. Login with your credentials at `/login`
 2. Access your dashboard at `/dashboard`
-3. View and manage your appointmentDatabaseEntities
-4. Edit appointmentDatabaseEntity details as needed
+3. View and manage your appointments
+4. Edit appointment details as needed
 
 ### For Administrators
 1. Login with admin credentials
 2. Access admin panel at `/admin`
-3. Manage barberDatabaseEntities, users, and appointmentDatabaseEntities
-4. Upload barberDatabaseEntity photos and manage system settings
+3. Manage barbers, users, and appointments
+4. Upload barber photos and manage system settings
 
 ## 🔌 API Endpoints
 
 ### Public Endpoints
 - `GET /` - Homepage
 - `GET /login` - Login page
-- `POST /appointmentDatabaseEntities/booking` - Book appointmentDatabaseEntity
+- `POST /appointments/booking` - Book appointment
 
 ### Protected Endpoints
 - `GET /dashboard` - Barber dashboard (ROLE_BARBER, ROLE_ADMIN)
 - `GET /admin` - Admin panel (ROLE_ADMIN)
-- `POST /admin/addBarber` - Add new barberDatabaseEntity (ROLE_ADMIN)
-- `POST /admin/editBarber/{id}` - Edit barberDatabaseEntity (ROLE_ADMIN)
-- `POST /admin/deleteBarber` - Delete barberDatabaseEntity (ROLE_ADMIN)
-- `POST /appointmentDatabaseEntities/delete` - Delete appointmentDatabaseEntity
-- `POST /appointmentDatabaseEntities/edit` - Edit appointmentDatabaseEntity
+- `POST /admin/addBarber` - Add new barber (ROLE_ADMIN)
+- `POST /admin/editBarber/{id}` - Edit barber (ROLE_ADMIN)
+- `POST /admin/deleteBarber` - Delete barber (ROLE_ADMIN)
+- `POST /appointments/delete` - Delete appointment
+- `POST /appointments/edit` - Edit appointment
 
 ## 🔒 Security
 
@@ -236,7 +236,7 @@ The application uses the following main tables:
 - `User`: User account information
 - `Barber`: Barber profile data
 - `Appointment`: Appointment details
-- `BarberId`: Composite key for appointmentDatabaseEntities
+- `BarberId`: Composite key for appointments
 - `LoginInput`: Login form data
 
 ### Repositories
@@ -292,4 +292,4 @@ For support and questions, please contact the development team or create an issu
 
 ---
 
-**Note**: This application is designed for barbershop management and includes features for appointmentDatabaseEntity booking, barberDatabaseEntity management, and administrative oversight. Make sure to configure the database and security settings according to your specific requirements before deployment. 
+**Note**: This application is designed for barbershop management and includes features for appointment booking, barber management, and administrative oversight. Make sure to configure the database and security settings according to your specific requirements before deployment. 
