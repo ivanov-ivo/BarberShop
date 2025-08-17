@@ -15,10 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface AppointmentRepository extends JpaRepository<AppointmentDatabaseEntity, AppointmentId> {
 
-    @Query("SELECT a FROM AppointmentDatabaseEntity a WHERE a.barberId = :barberId")
     List<AppointmentDatabaseEntity> findByBarberId(@Param("barberId") Long barberId);
 
-    @Query("SELECT a FROM AppointmentDatabaseEntity a WHERE a.barberId = :barberId AND a.date = :date")
     AppointmentDatabaseEntity findByBarberIdAndDate(@Param("barberId") Long barberId, @Param("date") Timestamp date);
 
     @Query("DELETE FROM AppointmentDatabaseEntity a WHERE a.date < :cutoff")

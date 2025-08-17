@@ -18,7 +18,7 @@ public interface UserServiceInterface {
 
     void addUserRole(String username, String role);
 
-    void deleteUserRole(String username);
+    void deleteByUsername(String username);
 
     void updateUserRole(String username, String role);
 

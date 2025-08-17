@@ -46,8 +46,8 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    public void deleteUserRole(String username) {
-        userRepository.deleteUserRole(username);
+    public void deleteByUsername(String username) {
+        userRepository.deleteByUsername(username);
     }
 
     @Override
@@ -62,6 +62,6 @@ public class UserServiceImpl implements UserServiceInterface {
 
     @Override
     public UserDatabaseEntity findByBarberId(Long barberId) {
-        return userRepository.findById(barberId);
+        return userRepository.findByBarberId(barberId);
     }
 } 

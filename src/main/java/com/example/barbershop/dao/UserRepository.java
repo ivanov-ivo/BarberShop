@@ -10,21 +10,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 public interface UserRepository extends JpaRepository<UserDatabaseEntity, String> {
 
-    @Query(value = "SELECT * FROM UserDatabaseEntity WHERE username = ?1", nativeQuery = true)
     UserDatabaseEntity findByUsername(String username);
 
-    @Query(value = "SELECT * FROM UserDatabaseEntity WHERE id = ?1", nativeQuery = true)
-    UserDatabaseEntity findById(Long id);
+    UserDatabaseEntity findByBarberId(Long id);
     
     @Query(value = "INSERT INTO UserDatabaseEntity (username, role) VALUES (?1, ?2)", nativeQuery = true)
     @Modifying
     @Transactional
     void addUserRole(String username, String role);
-    
-    @Query(value = "DELETE FROM UserDatabaseEntity WHERE username = ?1", nativeQuery = true)
-    @Modifying
-    @Transactional
-    void deleteUserRole(String username);
+
+    void deleteByUsername(String username);
     
     @Query(value = "UPDATE UserDatabaseEntity SET role = ?2 WHERE username = ?1", nativeQuery = true)
     @Modifying
