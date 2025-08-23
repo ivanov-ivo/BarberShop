@@ -2,6 +2,7 @@ package com.example.barbershop.service;
 
 import com.example.barbershop.dao.BarberRepository;
 import com.example.barbershop.entity.BarberDatabaseEntity;
+import com.example.barbershop.exception.BarberException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,17 +22,26 @@ public class BarberServiceImpl implements BarberServiceInterface {
     }
 
     @Override
-    public BarberDatabaseEntity findById(Long id) {
-        return barberRepository.findById(id).orElse(null);
+    public BarberDatabaseEntity findById(Integer id) {
+        return barberRepository.findById(id)
+            .orElseThrow(() -> BarberException.notFound(id));
     }
 
     @Override
     public BarberDatabaseEntity save(BarberDatabaseEntity barberDatabaseEntity) {
-        return barberRepository.save(barberDatabaseEntity);
+        try {
+            return barberRepository.save(barberDatabaseEntity);
+        } catch (Exception e) {
+            throw new BarberException("Failed to save barber", e);
+        }
     }
 
     @Override
-    public void deleteById(Long id) {
-        barberRepository.deleteById(id);
+    public void deleteById(Integer id) {
+        try {
+            barberRepository.deleteById(id);
+        } catch (Exception e) {
+            throw BarberException.deletionFailed(id);
+        }
     }
 } 

@@ -8,9 +8,9 @@ public interface BarberServiceInterface {
 
     List<BarberDatabaseEntity> findAll();
 
-    BarberDatabaseEntity findById(Long id);
+    BarberDatabaseEntity findById(Integer id);
 
     BarberDatabaseEntity save(BarberDatabaseEntity barberDatabaseEntity);
 
-    void deleteById(Long id);
+    void deleteById(Integer id);
 }

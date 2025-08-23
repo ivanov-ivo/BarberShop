@@ -24,5 +24,5 @@ public interface UserServiceInterface {
 
     String getUserRole(String username);
 
-    UserDatabaseEntity findByBarberId(Long barberId);
+    UserDatabaseEntity findByBarberId(Integer barberId);
 }

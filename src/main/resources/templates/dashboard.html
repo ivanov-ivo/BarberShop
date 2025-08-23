@@ -8,6 +8,9 @@
         <meta name="author" content="">
 
         <title>Dashboard - Gentlemen's Barber Shop</title>
+        
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
         <!-- CSS FILES -->        
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -487,7 +490,7 @@
                                             <i class="bi bi-pencil"></i>
                                             <span>Edit</span>
                                         </button>
-                                        <button type="button" class="action-btn cancel" th:attr="onclick=|showDeleteModal('${appointment.date}', '${appointment.barberId}')|">
+                                                                                 <button type="button" class="action-btn cancel" th:attr="onclick=|showDeleteModal('${appointment.date}', '${appointment.barberId}', '${appointment.name}')|">
                                             <i class="bi bi-x-circle"></i>
                                             <span>Cancel</span>
                                         </button>

@@ -12,20 +12,20 @@ public interface UserRepository extends JpaRepository<UserDatabaseEntity, String
 
     UserDatabaseEntity findByUsername(String username);
 
-    UserDatabaseEntity findByBarberId(Long id);
+    UserDatabaseEntity findByBarberId(Integer id);
     
-    @Query(value = "INSERT INTO UserDatabaseEntity (username, role) VALUES (?1, ?2)", nativeQuery = true)
+    @Query(value = "INSERT INTO users (username, role) VALUES (?1, ?2)", nativeQuery = true)
     @Modifying
     @Transactional
     void addUserRole(String username, String role);
 
     void deleteByUsername(String username);
     
-    @Query(value = "UPDATE UserDatabaseEntity SET role = ?2 WHERE username = ?1", nativeQuery = true)
+    @Query(value = "UPDATE users SET role = ?2 WHERE username = ?1", nativeQuery = true)
     @Modifying
     @Transactional
     void updateUserRole(String username, String role);
     
-    @Query(value = "SELECT role FROM UserDatabaseEntity WHERE username = ?1", nativeQuery = true)
+    @Query(value = "SELECT role FROM users WHERE username = ?1", nativeQuery = true)
     String getUserRole(String username);
 }

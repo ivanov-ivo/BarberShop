@@ -1,5 +1,7 @@
 package com.example.barbershop.service;
 
+import com.example.barbershop.exception.FileUploadException;
+import com.example.barbershop.exception.ValidationUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
@@ -25,7 +27,7 @@ public class FileUploadService {
                 Files.createDirectories(uploadDir);
             }
         } catch (IOException e) {
-            throw new RuntimeException("Could not create upload directory!", e);
+            throw new FileUploadException("Could not create upload directory!", e);
         }
     }
 
@@ -33,9 +35,12 @@ public class FileUploadService {
         // Clean the filename
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
         
+        // Validate file
+        ValidationUtils.validateFileUpload(fileName, file.getSize(), 10 * 1024 * 1024); // 10MB max
+        
         // Check if the file's name contains invalid characters
         if (fileName.contains("..")) {
-            throw new RuntimeException("Filename contains invalid path sequence " + fileName);
+            throw FileUploadException.invalidFileName(fileName);
         }
 
         // Generate unique filename to prevent overwriting
@@ -48,7 +53,11 @@ public class FileUploadService {
     }
 
     public void deleteFile(String fileName) throws IOException {
-        Path filePath = uploadDir.resolve(fileName);
-        Files.deleteIfExists(filePath);
+        try {
+            Path filePath = uploadDir.resolve(fileName);
+            Files.deleteIfExists(filePath);
+        } catch (IOException e) {
+            throw FileUploadException.deletionFailed(fileName);
+        }
     }
 } 

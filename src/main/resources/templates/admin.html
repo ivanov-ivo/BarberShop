@@ -8,6 +8,9 @@
         <meta name="author" content="">
 
         <title>Admin Dashboard - Gentlemen's Barber Shop</title>
+        
+        <!-- Favicon -->
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
         <!-- CSS FILES -->        
         <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -328,6 +331,16 @@
         <!-- Main Content -->
         <section class="dashboard-section">
             <div class="container">
+                <!-- Flash Messages -->
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <span th:text="${success}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <span th:text="${error}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                
                 <!-- Barbers Management -->
                 <div class="dashboard-card" id="barbersManagement">
                     <h3>
@@ -340,7 +353,7 @@
                     </button>
 
                     <!-- Barbers List -->
-                    <div class="barber-list" th:if="${not #lists.isEmpty(barber)}">
+                    <div class="barber-list" th:if="${not #lists.isEmpty(barbers)}">
                         <div class="barber-card"
                              th:each="barber : ${barbers}"
                              th:attr="data-barber-id=${barber.id},data-barber-name=${barber.name}">
@@ -352,7 +365,8 @@
                                 </div>
                             </div>
                             <div class="barber-actions">
-                                <button class="action-btn edit" th:onclick="'editBarber(' + ${barber.id} + ')'">
+                                <button class="action-btn edit"
+                                        th:data-barber-id="${barber.id}">
                                     <i class="bi bi-pencil"></i> Edit
                                 </button>
                                 <button class="action-btn delete"
@@ -363,7 +377,7 @@
                             </div>
                         </div>
                     </div>
-                    <div th:if="${#lists.isEmpty(barber)}" class="text-center p-4">
+                    <div th:if="${#lists.isEmpty(barbers)}" class="text-center p-4">
                         <p>No barber found. Add your first barber!</p>
                     </div>
                 </div>
@@ -586,34 +600,30 @@
                 const form = event.target;
                 const formData = new FormData(form);
                 const barberId = formData.get('id');
-                const url = barberId ? `/admin/editBarber/${barberId}` : '/admin/addBarber';
-
+                
                 // Show loading state
                 const submitButton = form.querySelector('button[type="submit"]');
                 const originalText = submitButton.innerHTML;
                 submitButton.disabled = true;
                 submitButton.innerHTML = 'Saving...';
-
-                fetch(url, {
-                    method: 'POST',
-                    body: formData,
-                    credentials: 'same-origin'
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to save barber');
-                    }
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Failed to save barber. Please try again.');
-                    submitButton.disabled = false;
-                    submitButton.innerHTML = originalText;
-                });
+                
+                // Update form action based on whether we're editing or adding
+                if (barberId) {
+                    form.action = `/admin/editBarber/${barberId}`;
+                } else {
+                    form.action = '/admin/addBarber';
+                }
+                
+                // Submit the form normally
+                form.submit();
             }
 
             function editBarber(barberId) {
+                if (!barberId || barberId === 'undefined') {
+                    console.error('Invalid barber ID:', barberId);
+                    return;
+                }
+                
                 const modal = document.getElementById('barberModal');
                 const modalInstance = bootstrap.Modal.getOrCreateInstance(modal);
                 $('#barberModalLabel').text('Edit Barber');
@@ -679,6 +689,11 @@
             }
 
             function deleteBarber(barberId, barberName) {
+                if (!barberId || barberId === 'undefined') {
+                    console.error('Invalid barber ID:', barberId);
+                    return;
+                }
+                
                 const modal = document.getElementById('deleteModal');
                 const modalInstance = bootstrap.Modal.getOrCreateInstance(modal);
                 

@@ -2,6 +2,7 @@ package com.example.barbershop.service;
 
 import com.example.barbershop.dao.UserRepository;
 import com.example.barbershop.entity.UserDatabaseEntity;
+import com.example.barbershop.exception.UserException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,17 +23,26 @@ public class UserServiceImpl implements UserServiceInterface {
 
     @Override
     public UserDatabaseEntity findById(String id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id)
+            .orElseThrow(() -> UserException.notFound(id));
     }
 
     @Override
     public UserDatabaseEntity save(UserDatabaseEntity userDatabaseEntity) {
-        return userRepository.save(userDatabaseEntity);
+        try {
+            return userRepository.save(userDatabaseEntity);
+        } catch (Exception e) {
+            throw new UserException("Failed to save user", e);
+        }
     }
 
     @Override
     public void deleteById(String id) {
-        userRepository.deleteById(id);
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw UserException.deletionFailed(id);
+        }
     }
 
     @Override
@@ -61,7 +71,7 @@ public class UserServiceImpl implements UserServiceInterface {
     }
 
     @Override
-    public UserDatabaseEntity findByBarberId(Long barberId) {
+    public UserDatabaseEntity findByBarberId(Integer barberId) {
         return userRepository.findByBarberId(barberId);
     }
 } 

@@ -16,9 +16,9 @@ public interface AppointmentServiceInterface {
 
     void deleteById(AppointmentId id);
 
-    List<AppointmentDatabaseEntity> findByBarberId(Long barberId);
+    List<AppointmentDatabaseEntity> findByBarberId(Integer barberId);
 
-    AppointmentDatabaseEntity findByBarberIdAndDate(Long barberId, Timestamp date);
+    AppointmentDatabaseEntity findByBarberIdAndDate(Integer barberId, Timestamp date);
 
     void deleteAppointmentsOlderThan10Days();
 }

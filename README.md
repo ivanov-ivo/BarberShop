@@ -216,6 +216,30 @@ The application uses the following main tables:
 - Session invalidation on logout
 - Access denied page for unauthorized requests
 
+## 🛡️ Exception Handling
+
+### Custom Exception System
+- Comprehensive exception hierarchy with specific exception types
+- Global exception handler for consistent error responses
+- Validation utilities for input validation
+- Proper error logging and user feedback
+
+### Exception Types
+- `AppointmentException` - Appointment-related errors
+- `BarberException` - Barber management errors
+- `UserException` - User authentication and management errors
+- `FileUploadException` - File upload and storage errors
+- `ValidationException` - Input validation errors
+
+### Features
+- JSON error responses for REST endpoints
+- Flash message support for form submissions
+- Structured error information with error codes
+- Security-conscious error messages
+- Comprehensive logging and monitoring support
+
+For detailed information, see [Exception Handling Documentation](docs/EXCEPTION_HANDLING.md)
+
 ## 📂 File Structure Details
 
 ### Controllers

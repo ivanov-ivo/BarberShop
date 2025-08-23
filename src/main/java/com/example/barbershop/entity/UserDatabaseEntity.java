@@ -25,10 +25,10 @@ public class UserDatabaseEntity {
     private String password;
 
     @Column(name = "enabled")
-    private boolean enabled;
+    private Boolean enabled;
 
     @Column(name = "id")
-    private Long barberId;
+    private Integer barberId;
 
     @Column(name = "role")
     private String role;

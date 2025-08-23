@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "appointments")
@@ -32,7 +33,7 @@ public class AppointmentDatabaseEntity {
 
     @Id
     @Column(name = "id")
-    private Long barberId;
+    private Integer barberId;
 
     @Column(name = "comment")
     private String comment;

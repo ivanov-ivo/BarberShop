@@ -2,6 +2,7 @@ package com.example.barbershop.service;
 
 import com.example.barbershop.dao.AppointmentRepository;
 import com.example.barbershop.entity.AppointmentDatabaseEntity;
+import com.example.barbershop.exception.AppointmentException;
 import org.springframework.stereotype.Service;
 import com.example.barbershop.entity.AppointmentId;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,26 +28,35 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface {
 
     @Override
     public AppointmentDatabaseEntity findById(AppointmentId id) {
-        return appointmentRepository.findById(id).orElse(null);
+        return appointmentRepository.findById(id)
+            .orElseThrow(() -> AppointmentException.notFound(id.getDate().toString(), id.getBarberId().toString()));
     }
 
     @Override
     public AppointmentDatabaseEntity save(AppointmentDatabaseEntity appointmentDatabaseEntity) {
-        return appointmentRepository.save(appointmentDatabaseEntity);
+        try {
+            return appointmentRepository.save(appointmentDatabaseEntity);
+        } catch (Exception e) {
+            throw new AppointmentException("Failed to save appointment", e);
+        }
     }
 
     @Override
     public void deleteById(AppointmentId id) {
-        appointmentRepository.deleteById(id);
+        try {
+            appointmentRepository.deleteById(id);
+        } catch (Exception e) {
+            throw AppointmentException.deletionFailed(id.toString());
+        }
     }
 
     @Override
-    public List<AppointmentDatabaseEntity> findByBarberId(Long barberId) {
+    public List<AppointmentDatabaseEntity> findByBarberId(Integer barberId) {
         return appointmentRepository.findByBarberId(barberId);
     }
 
     @Override
-    public AppointmentDatabaseEntity findByBarberIdAndDate(Long barberId, Timestamp date) {
+    public AppointmentDatabaseEntity findByBarberIdAndDate(Integer barberId, Timestamp date) {
         return appointmentRepository.findByBarberIdAndDate(barberId, date);
     }
 
@@ -56,6 +66,16 @@ public class AppointmentServiceImpl implements AppointmentServiceInterface {
         LocalDateTime cutoffLocalDateTime = LocalDateTime.now().minusDays(10);
         Timestamp cutoffTimestamp = Timestamp.valueOf(cutoffLocalDateTime);
         appointmentRepository.deleteAppointmentsOlderThan(cutoffTimestamp);
+    }
+    
+    /**
+     * Check if an appointment already exists for the given barber and date
+     */
+    public void checkAppointmentConflict(Integer barberId, Timestamp date) {
+        AppointmentDatabaseEntity existingAppointment = appointmentRepository.findByBarberIdAndDate(barberId, date);
+        if (existingAppointment != null) {
+            throw AppointmentException.alreadyExists(barberId.toString(), date.toString());
+        }
     }
     
 } 

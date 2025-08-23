@@ -15,5 +15,5 @@ import lombok.Setter;
 @Setter
 public class AppointmentId implements Serializable {
     private Timestamp date;
-    private Long barberId;
+    private Integer barberId;
 } 

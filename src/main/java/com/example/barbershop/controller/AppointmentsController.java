@@ -1,6 +1,9 @@
 package com.example.barbershop.controller;
 
 import com.example.barbershop.entity.AppointmentDatabaseEntity;
+import com.example.barbershop.exception.AppointmentException;
+import com.example.barbershop.exception.ValidationException;
+import com.example.barbershop.exception.ValidationUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,12 +25,15 @@ public class AppointmentsController {
     }
 
     @PostMapping("/appointments/delete")
-    public String deleteAppointment(@RequestParam("appointmentDate") Timestamp appointmentDate, @RequestParam("barberId") Long barberId) {
+    public String deleteAppointment(@RequestParam("appointmentDate") Timestamp appointmentDate, 
+                                   @RequestParam("barberId") Integer barberId,
+                                   RedirectAttributes redirectAttributes) {
         try {
+            ValidationUtils.validateBarberId(barberId);
             appointmentService.deleteById(new AppointmentId(appointmentDate, barberId));
-        } catch (Exception e) {
-            // Log the error
-            System.err.println("Error deleting appointment: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("success", "Appointment deleted successfully!");
+        } catch (AppointmentException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         return "redirect:/dashboard";
     }
@@ -39,34 +45,37 @@ public class AppointmentsController {
             @RequestParam("phone") String phone,
             @RequestParam("newDate") String newDateStr,
             @RequestParam("comment") String comment,
-            @RequestParam("barberId") Long barberId) {
+            @RequestParam("barberId") Integer barberId,
+            RedirectAttributes redirectAttributes) {
         
         try {
-            // Get the original appointmentDatabaseEntity
+            ValidationUtils.validateRequired(name, "name");
+            ValidationUtils.validateRequired(phone, "phone");
+            ValidationUtils.validateBarberId(barberId);
+            ValidationUtils.validatePhone(phone);
+            
             AppointmentDatabaseEntity appointmentDatabaseEntity = appointmentService.findByBarberIdAndDate(barberId, originalDate);
             
-            if (appointmentDatabaseEntity != null) {
-                // Delete the old appointmentDatabaseEntity
-                appointmentService.deleteById(new AppointmentId(originalDate, barberId));
-                
-                // Create a new appointmentDatabaseEntity with updated details
-                AppointmentDatabaseEntity newAppointmentDatabaseEntity = new AppointmentDatabaseEntity();
-                newAppointmentDatabaseEntity.setName(name);
-                newAppointmentDatabaseEntity.setPhone(phone);
-                newAppointmentDatabaseEntity.setComment(comment);
-                newAppointmentDatabaseEntity.setBarberId(barberId);
-                
-                // Parse the date using Flatpickr's format (YYYY-MM-DD HH:mm)
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                LocalDateTime newDateTime = LocalDateTime.parse(newDateStr, formatter);
-                newAppointmentDatabaseEntity.setDate(Timestamp.valueOf(newDateTime));
-                
-                // Save the new appointmentDatabaseEntity
-                appointmentService.save(newAppointmentDatabaseEntity);
+            if (appointmentDatabaseEntity == null) {
+                throw AppointmentException.notFound(originalDate.toString(), barberId.toString());
             }
-        } catch (Exception e) {
-            // Log the error
-            System.err.println("Error updating appointment: " + e.getMessage());
+            
+            appointmentService.deleteById(new AppointmentId(originalDate, barberId));
+            
+            AppointmentDatabaseEntity newAppointmentDatabaseEntity = new AppointmentDatabaseEntity();
+            newAppointmentDatabaseEntity.setName(name);
+            newAppointmentDatabaseEntity.setPhone(phone);
+            newAppointmentDatabaseEntity.setComment(comment);
+            newAppointmentDatabaseEntity.setBarberId(barberId);
+            
+            LocalDateTime newDateTime = ValidationUtils.validateAppointmentDate(newDateStr);
+            newAppointmentDatabaseEntity.setDate(Timestamp.valueOf(newDateTime));
+            
+            appointmentService.save(newAppointmentDatabaseEntity);
+            
+            redirectAttributes.addFlashAttribute("success", "Appointment updated successfully!");
+        } catch (AppointmentException | ValidationException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
         
         return "redirect:/dashboard";
@@ -77,32 +86,33 @@ public class AppointmentsController {
                           @RequestParam("phone") String phone,
                           @RequestParam("date") String dateTimeStr,
                           @RequestParam("message") String message,
-                          @RequestParam("barber") Long barberId,
+                          @RequestParam("barber") Integer barberId,
                           RedirectAttributes redirectAttributes) {
         try {
+            ValidationUtils.validateRequired(name, "name");
+            ValidationUtils.validateRequired(phone, "phone");
+            ValidationUtils.validateBarberId(barberId);
+            ValidationUtils.validatePhone(phone);
+            ValidationUtils.validateLength(name, "name", 2, 50);
+            
+            LocalDateTime dateTime = ValidationUtils.validateAppointmentDate(dateTimeStr);
+            
+            appointmentService.checkAppointmentConflict(barberId, Timestamp.valueOf(dateTime));
+            
             AppointmentDatabaseEntity appointmentDatabaseEntity = new AppointmentDatabaseEntity();
             appointmentDatabaseEntity.setName(name);
             appointmentDatabaseEntity.setPhone(phone);
-            
-            // Parse the date using Flatpickr's format (YYYY-MM-DD HH:mm)
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-            LocalDateTime dateTime = LocalDateTime.parse(dateTimeStr, formatter);
-            
-            // Set the appointmentDatabaseEntity date
             appointmentDatabaseEntity.setDate(Timestamp.valueOf(dateTime));
             appointmentDatabaseEntity.setComment(message);
             appointmentDatabaseEntity.setBarberId(barberId);
             
-            // Save the appointmentDatabaseEntity
             appointmentService.save(appointmentDatabaseEntity);
             
             redirectAttributes.addFlashAttribute("success", "Appointment booked successfully!");
-            return "redirect:/";
-        } catch (Exception e) {
-            System.err.println("Error creating appointment: " + e.getMessage());
-            e.printStackTrace();
-            redirectAttributes.addFlashAttribute("error", "Failed to book appointment. Please try again.");
-            return "redirect:/";
+        } catch (AppointmentException | ValidationException e) {
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
         }
+        
+        return "redirect:/";
     }
 }
