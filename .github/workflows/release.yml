@@ -14,6 +14,7 @@ on:
 permissions:
   contents: write
   packages: write
+  actions: read
 
 jobs:
   release:
@@ -70,6 +71,7 @@ jobs:
         prerelease: false
         files: target/BarberShop-0.0.1-SNAPSHOT.jar
         token: ${{ secrets.GITHUB_TOKEN }}
+        generate_release_notes: true
 
     - name: Build and push Docker image for release
       uses: docker/build-push-action@v5

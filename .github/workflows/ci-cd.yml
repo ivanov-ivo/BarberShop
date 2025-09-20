@@ -13,6 +13,7 @@ permissions:
   pull-requests: write
   issues: write
   security-events: write
+  actions: read
 
 env:
   JAVA_VERSION: '17'
@@ -94,6 +95,7 @@ jobs:
         path: target/surefire-reports/*.xml
         reporter: java-junit
         fail-on-error: false
+        token: ${{ secrets.GITHUB_TOKEN }}
 
   build:
     name: Build
@@ -166,6 +168,7 @@ jobs:
         labels: ${{ steps.meta.outputs.labels }}
         cache-from: type=gha
         cache-to: type=gha,mode=max
+        platforms: linux/amd64
 
   deploy:
     name: Deploy
@@ -191,12 +194,14 @@ jobs:
     if: always() && github.event_name == 'push'
     permissions:
       contents: write
+      pull-requests: write
     
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0
 
     - name: Configure Git
       run: |
