@@ -39,7 +39,9 @@ jobs:
         restore-keys: ${{ runner.os }}-m2
 
     - name: Build release
-      run: ./mvnw clean package -DskipTests
+      run: |
+        chmod +x ./mvnw
+        ./mvnw clean package -DskipTests
 
     - name: Set version
       id: version

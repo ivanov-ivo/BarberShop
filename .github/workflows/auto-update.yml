@@ -29,6 +29,7 @@ jobs:
     - name: Update dependencies
       run: |
         # Update Maven dependencies
+        chmod +x ./mvnw
         ./mvnw versions:use-latest-releases
         ./mvnw versions:commit
 
