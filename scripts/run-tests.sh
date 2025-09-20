@@ -43,7 +43,9 @@ log "Compiling test classes..."
 
 # Run tests with proper configuration
 log "Running tests..."
-./mvnw surefire:test -Dmaven.test.failure.ignore=true
+./mvnw surefire:test -Dmaven.test.failure.ignore=true -Dmaven.test.skip=false || {
+    warning "Tests failed, but continuing with report generation..."
+}
 
 # Check if test reports were generated
 if [ ! -d "target/surefire-reports" ] || [ -z "$(ls -A target/surefire-reports)" ]; then
