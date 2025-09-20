@@ -30,8 +30,9 @@ public class ValidationException extends BarberShopException {
         this.validationErrors.add(field + ": " + error);
     }
     
+    // Defensive copy to prevent exposure of internal representation
     public List<String> getValidationErrors() {
-        return validationErrors;
+        return new ArrayList<>(validationErrors);
     }
     
     public static ValidationException requiredField(String fieldName) {

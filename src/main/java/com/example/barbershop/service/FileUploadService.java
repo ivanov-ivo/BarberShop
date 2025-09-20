@@ -32,8 +32,18 @@ public class FileUploadService {
     }
 
     public String uploadFile(MultipartFile file) throws IOException {
+        // Check for null file first
+        if (file == null) {
+            throw FileUploadException.invalidFileName("null file");
+        }
+        
         // Clean the filename
         String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        
+        // Check for null or empty filename
+        if (fileName == null || fileName.isEmpty()) {
+            throw FileUploadException.invalidFileName("null or empty filename");
+        }
         
         // Validate file
         ValidationUtils.validateFileUpload(fileName, file.getSize(), 10 * 1024 * 1024); // 10MB max

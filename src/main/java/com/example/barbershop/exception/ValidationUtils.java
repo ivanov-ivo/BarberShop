@@ -86,7 +86,7 @@ public class ValidationUtils {
     private static String getFileExtension(String fileName) {
         int lastDotIndex = fileName.lastIndexOf('.');
         if (lastDotIndex > 0) {
-            return fileName.substring(lastDotIndex + 1).toLowerCase();
+            return fileName.substring(lastDotIndex + 1).toLowerCase(java.util.Locale.ENGLISH);
         }
         return "";
     }

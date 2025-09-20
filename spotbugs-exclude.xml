@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+    <!-- Suppress EI_EXPOSE_REP2 warnings for Spring Boot constructor injection -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Class name="com.example.barbershop.controller.AdminController" />
+        <Method name="&lt;init&gt;" />
+    </Match>
+    
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Class name="com.example.barbershop.controller.AppointmentsController" />
+        <Method name="&lt;init&gt;" />
+    </Match>
+    
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Class name="com.example.barbershop.controller.DashboardController" />
+        <Method name="&lt;init&gt;" />
+    </Match>
+    
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Class name="com.example.barbershop.controller.IndexController" />
+        <Method name="&lt;init&gt;" />
+    </Match>
+    
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Class name="com.example.barbershop.service.AppointmentServiceImpl" />
+        <Method name="&lt;init&gt;" />
+    </Match>
+    
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Class name="com.example.barbershop.service.DeleteOldAppointmentsScheduler" />
+        <Method name="&lt;init&gt;" />
+    </Match>
+    
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2" />
+        <Class name="com.example.barbershop.service.UserServiceImpl" />
+        <Method name="&lt;init&gt;" />
+    </Match>
+</FindBugsFilter>

@@ -15,7 +15,6 @@ import jakarta.validation.constraints.Pattern;
 @Entity
 @Table(name = "appointments")
 @IdClass(AppointmentId.class)
-@AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
@@ -37,4 +36,23 @@ public class AppointmentDatabaseEntity {
 
     @Column(name = "comment")
     private String comment;
+    
+    // Defensive copy for getter to prevent exposure of internal representation
+    public Timestamp getDate() {
+        return date != null ? new Timestamp(date.getTime()) : null;
+    }
+    
+    // Defensive copy for setter to prevent exposure of internal representation
+    public void setDate(Timestamp date) {
+        this.date = date != null ? new Timestamp(date.getTime()) : null;
+    }
+    
+    // Custom constructor to prevent exposure of internal representation
+    public AppointmentDatabaseEntity(Timestamp date, String name, String phone, Integer barberId, String comment) {
+        this.date = date != null ? new Timestamp(date.getTime()) : null;
+        this.name = name;
+        this.phone = phone;
+        this.barberId = barberId;
+        this.comment = comment;
+    }
 }

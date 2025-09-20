@@ -1,0 +1,62 @@
+name: Auto Update Repository
+
+on:
+  schedule:
+    # Run every day at 2 AM UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  auto-update:
+    name: Auto Update
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Configure Git
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+
+    - name: Update dependencies
+      run: |
+        # Update Maven dependencies
+        ./mvnw versions:use-latest-releases
+        ./mvnw versions:commit
+
+    - name: Check for changes
+      id: changes
+      run: |
+        if [ -n "$(git status --porcelain)" ]; then
+          echo "changes=true" >> $GITHUB_OUTPUT
+        else
+          echo "changes=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Commit and push dependency updates
+      if: steps.changes.outputs.changes == 'true'
+      run: |
+        git add .
+        git commit -m "Auto-update: Update dependencies [skip ci]"
+        git push
+
+    - name: Generate changelog
+      run: |
+        # Generate changelog for recent changes
+        echo "# Changelog" > CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        echo "## $(date +%Y-%m-%d)" >> CHANGELOG.md
+        echo "" >> CHANGELOG.md
+        git log --oneline --since="1 day ago" >> CHANGELOG.md
+
+    - name: Commit changelog
+      run: |
+        if [ -n "$(git status --porcelain CHANGELOG.md)" ]; then
+          git add CHANGELOG.md
+          git commit -m "Auto-update: Update changelog [skip ci]"
+          git push
+        fi

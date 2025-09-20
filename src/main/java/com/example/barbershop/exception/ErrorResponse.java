@@ -2,6 +2,8 @@ package com.example.barbershop.exception;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Collections;
+import java.util.HashMap;
 
 public class ErrorResponse {
     private final String errorCode;
@@ -15,7 +17,8 @@ public class ErrorResponse {
         this.message = message;
         this.timestamp = LocalDateTime.now().toString();
         this.path = path;
-        this.details = details;
+        // Defensive copy to prevent exposure of internal representation
+        this.details = details != null ? new HashMap<>(details) : Collections.emptyMap();
     }
 
     // Getters
@@ -35,7 +38,8 @@ public class ErrorResponse {
         return path;
     }
 
+    // Defensive copy to prevent exposure of internal representation
     public Map<String, String> getDetails() {
-        return details;
+        return details != null ? new HashMap<>(details) : Collections.emptyMap();
     }
 }
