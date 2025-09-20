@@ -2,7 +2,6 @@ package com.example.barbershop.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

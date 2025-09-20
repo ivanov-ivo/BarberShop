@@ -8,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.sql.Timestamp;
 
 import com.example.barbershop.service.AppointmentServiceImpl;

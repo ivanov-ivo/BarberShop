@@ -37,12 +37,18 @@ public class FileUploadService {
             throw FileUploadException.invalidFileName("null file");
         }
         
-        // Clean the filename
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        // Get original filename and check for null
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null) {
+            throw FileUploadException.invalidFileName("null original filename");
+        }
         
-        // Check for null or empty filename
-        if (fileName == null || fileName.isEmpty()) {
-            throw FileUploadException.invalidFileName("null or empty filename");
+        // Clean the filename
+        String fileName = StringUtils.cleanPath(originalFilename);
+        
+        // Check for empty filename
+        if (fileName.isEmpty()) {
+            throw FileUploadException.invalidFileName("empty filename");
         }
         
         // Validate file
