@@ -14,6 +14,7 @@ permissions:
   issues: write
   security-events: write
   actions: read
+  checks: write
 
 env:
   JAVA_VERSION: '17'
