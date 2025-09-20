@@ -1,13 +1,13 @@
 # Multi-stage build for better optimization
-FROM openjdk:17-jdk-slim AS builder
+FROM eclipse-temurin:17-jdk-alpine AS builder
 
 # Set working directory
 WORKDIR /app
 
 # Install necessary packages
-RUN apt-get update && apt-get install -y \
+RUN apk add --no-cache \
     curl \
-    && rm -rf /var/lib/apt/lists/*
+    bash
 
 # Copy Maven wrapper and pom.xml first for better layer caching
 COPY mvnw .
@@ -28,15 +28,14 @@ COPY src ./src
 RUN ./mvnw clean package
 
 # Runtime stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre-alpine
 
 # Set working directory
 WORKDIR /app
 
 # Install curl for health checks
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    curl
 
 # Copy the built JAR from builder stage
 COPY --from=builder /app/target/BarberShop-0.0.1-SNAPSHOT.jar app.jar
@@ -45,7 +44,7 @@ COPY --from=builder /app/target/BarberShop-0.0.1-SNAPSHOT.jar app.jar
 RUN mkdir -p /app/uploads
 
 # Create non-root user for security
-RUN groupadd -r barbershop && useradd -r -g barbershop barbershop
+RUN addgroup -g 1001 barbershop && adduser -D -u 1001 -G barbershop barbershop
 RUN chown -R barbershop:barbershop /app
 USER barbershop
 

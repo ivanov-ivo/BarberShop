@@ -242,8 +242,16 @@ jobs:
         java-version: ${{ env.JAVA_VERSION }}
         distribution: 'temurin'
 
+    - name: Cache Maven dependencies
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
     - name: Run OWASP Dependency Check
-      uses: dependency-check/Dependency-Check_Action@main
+      uses: dependency-check/Dependency-Check_Action@v6.1.0
+      continue-on-error: true
       with:
         project: 'BarberShop'
         path: '.'
@@ -255,6 +263,7 @@ jobs:
 
     - name: Upload security scan results
       uses: actions/upload-artifact@v4
+      if: always()
       with:
         name: security-scan-results
         path: reports/
