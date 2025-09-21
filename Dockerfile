@@ -14,6 +14,9 @@ COPY mvnw .
 COPY mvnw.cmd .
 COPY .mvn .mvn
 COPY pom.xml .
+COPY checkstyle.xml .
+COPY spotbugs-exclude.xml .
+COPY sqlScript.sql .
 
 # Make Maven wrapper executable
 RUN chmod +x ./mvnw
@@ -55,7 +58,6 @@ EXPOSE 8080
 ENV SPRING_PROFILES_ACTIVE=docker
 ENV SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/barbershop
 ENV SPRING_DATASOURCE_USERNAME=barbershop
-ENV SPRING_DATASOURCE_PASSWORD=barbershop
 ENV JAVA_OPTS="-Xmx512m -Xms256m"
 
 # Health check
