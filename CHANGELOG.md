@@ -1,5 +1,5 @@
 # Changelog
 
-## 2025-10-07
+## 2025-10-08
 
-545c939 Auto-update: Update changelog [skip ci]
+70951ef Auto-update: Update changelog [skip ci]
