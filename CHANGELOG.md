@@ -1,5 +1,5 @@
 # Changelog
 
-## 2025-11-11
+## 2025-11-12
 
-f38401c Auto-update: Update changelog [skip ci]
+1cba5d0 Auto-update: Update changelog [skip ci]
