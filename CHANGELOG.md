@@ -1,5 +1,5 @@
 # Changelog
 
-## 2025-11-19
+## 2025-11-20
 
-adc8043 Auto-update: Update changelog [skip ci]
+92e08fa Auto-update: Update changelog [skip ci]
