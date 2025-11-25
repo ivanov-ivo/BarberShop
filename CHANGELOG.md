@@ -1,5 +1,5 @@
 # Changelog
 
-## 2025-11-24
+## 2025-11-25
 
-ddcc773 Auto-update: Update changelog [skip ci]
+1876bed Auto-update: Update changelog [skip ci]
