@@ -1,5 +1,5 @@
 # Changelog
 
-## 2025-11-25
+## 2025-11-26
 
-1876bed Auto-update: Update changelog [skip ci]
+6f927f9 Auto-update: Update changelog [skip ci]
