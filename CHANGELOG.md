@@ -1,5 +1,4 @@
 # Changelog
 
-## 2026-01-24
+## 2026-01-25
 
-209cce8 Auto-update: Update changelog [skip ci]
