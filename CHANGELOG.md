@@ -1,5 +1,5 @@
 # Changelog
 
-## 2026-02-03
+## 2026-02-04
 
-f35258a Auto-update: Update changelog [skip ci]
+43fc5e7 Auto-update: Update changelog [skip ci]
