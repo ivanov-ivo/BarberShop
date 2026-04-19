@@ -1,5 +1,4 @@
 # Changelog
 
-## 2026-04-18
+## 2026-04-19
 
-acbe280 Auto-update: Update changelog [skip ci]
