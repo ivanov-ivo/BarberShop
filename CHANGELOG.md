@@ -1,5 +1,4 @@
 # Changelog
 
-## 2026-05-14
+## 2026-05-15
 
-aaac138 Auto-update: Update changelog [skip ci]
