@@ -1,5 +1,4 @@
 # Changelog
 
-## 2026-05-26
+## 2026-05-27
 
-de9adf5 Auto-update: Update changelog [skip ci]
