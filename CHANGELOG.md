@@ -1,5 +1,5 @@
 # Changelog
 
-## 2026-06-05
+## 2026-06-06
 
-264749a Auto-update: Update changelog [skip ci]
+5d37b10 Auto-update: Update changelog [skip ci]
