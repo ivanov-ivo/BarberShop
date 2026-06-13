@@ -1,5 +1,5 @@
 # Changelog
 
-## 2026-06-12
+## 2026-06-13
 
-eb15914 Auto-update: Update changelog [skip ci]
+84ba070 Auto-update: Update changelog [skip ci]
