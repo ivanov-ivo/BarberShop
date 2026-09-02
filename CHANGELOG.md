@@ -1,5 +1,6 @@
 # Changelog
 
-## 2026-09-01
+## 2026-09-02
 
-73414dc Auto-update: Update changelog [skip ci]
+5b772fc Auto-update: Update dependencies [skip ci]
+1c2cd7e Auto-update: Update changelog [skip ci]
