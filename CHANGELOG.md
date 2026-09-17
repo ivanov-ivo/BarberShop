@@ -1,5 +1,5 @@
 # Changelog
 
-## 2026-09-16
+## 2026-09-17
 
-bd233c7 Auto-update: Update changelog [skip ci]
+e283038 Auto-update: Update changelog [skip ci]
