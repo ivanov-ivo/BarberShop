@@ -1,5 +1,5 @@
 # Changelog
 
-## 2026-10-16
+## 2026-10-17
 
-8395489 Auto-update: Update changelog [skip ci]
+4933283 Auto-update: Update changelog [skip ci]
